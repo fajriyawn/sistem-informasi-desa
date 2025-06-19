@@ -2,21 +2,18 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
-use Filament\Tables;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
+use App\Filament\Resources\MediaLibraryResource\Pages;
 use App\Models\MediaLibrary;
-use Filament\Resources\Resource;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Card;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\MediaLibraryResource\Pages;
-use App\Filament\Resources\MediaLibraryResource\RelationManagers;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Table;
+use Illuminate\Support\Facades\Storage;
 
 class MediaLibraryResource extends Resource
 {
@@ -27,58 +24,64 @@ class MediaLibraryResource extends Resource
     protected static ?string $navigationGroup = 'Manajemen Konten';
 
     protected static ?string $label = 'Media';
-    
+
     protected static ?string $pluralLabel = 'Media';
 
-    
+    public static function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Card::make()
+                    ->schema([
+                        FileUpload::make('file_path')
+                            ->label('File')
+                            ->image()
+                            ->required()
+                            ->disk('public')
+                            ->directory('media-library')
+                            ->visibility('public')
+                            ->preserveFilenames()
+                            ->previewable(true)
+                            ->reactive()
+                            ->maxSize(5120)
+                            ->getUploadedFileUrlUsing(function ($state) {
+                                return is_string($state) ? Storage::disk('public')->url($state) : null;
+                            })
+                            ->afterStateUpdated(function ($state, $set, $livewire) {
+                                if ($state) {
+                                    $path = $state->getRealPath();
+                                    
+                                    // Gunakan $livewire->set() untuk mengisi field lain
+                                    $livewire->set('data.file_name', pathinfo($path, PATHINFO_FILENAME));
+                                    $livewire->set('data.mime_type', mime_content_type($path));
+                                    $livewire->set('data.file_size', filesize($path));
+                                }
+                            }),
 
-public static function form(Form $form): Form
-{
-    return $form
-        ->schema([
-            Card::make()
-                ->schema([
-                    FileUpload::make('file_path')
-                        ->label('File')
-                        ->image()
-                        ->required()
-                        ->disk('public')
-                        ->directory('media-library')
-                        ->visibility('public')
-                        ->maxSize(5120) // 5MB
-                        ->preserveFilenames()
-                        ->previewable(true)
-                        ->reactive()
-                        ->afterStateUpdated(function ($state, callable $set) {
-                            if (!$state) return;
-                            
-                            $path = storage_path('app/public/' . $state);
-                            
-                            if (file_exists($path)) {
-                                $set('file_name', pathinfo($path, PATHINFO_FILENAME));
-                                $set('mime_type', mime_content_type($path));
-                                $set('file_size', filesize($path));
-                            }
-                        }),
-                    
-                    Forms\Components\TextInput::make('file_name')
-                        ->required()
-                        ->maxLength(255),
-                    Forms\Components\TextInput::make('caption')
-                        ->maxLength(255),
-                    Forms\Components\Select::make('type')
-                        ->options([
-                            'image' => 'Gambar',
-                            'document' => 'Dokumen',
-                            'video' => 'Video',
-                            'other' => 'Lainnya',
-                        ])
-                        ->default('image'),
-                    Forms\Components\Hidden::make('mime_type'),
-                    Forms\Components\Hidden::make('file_size'),
-                ])
-        ]);
-}
+                        TextInput::make('file_name')
+                            ->label('Nama File')
+                            ->required()
+                            ->maxLength(255),
+
+                        TextInput::make('caption')
+                            ->label('Keterangan')
+                            ->maxLength(255),
+
+                        Select::make('type')
+                            ->label('Tipe')
+                            ->options([
+                                'image' => 'Gambar',
+                                'document' => 'Dokumen',
+                                'video' => 'Video',
+                                'other' => 'Lainnya',
+                            ])
+                            ->default('image'),
+
+                        Hidden::make('mime_type')->required(),
+                        Hidden::make('file_size')->required(),
+                    ])
+            ]);
+    }
 
     public static function table(Table $table): Table
     {
