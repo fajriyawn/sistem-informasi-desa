@@ -139,8 +139,8 @@ class SettingResource extends Resource
                 ->label('Logo')
                 ->visibility('public')
                 ->disk('public')
-                ->height(30) // optional styling
-                ->width(30)
+                // ->height(30) // optional styling
+                // ->width(30)
                 ->circular(), 
             Tables\Columns\TextColumn::make('updated_at')
                 ->label('Terakhir Diperbarui')
