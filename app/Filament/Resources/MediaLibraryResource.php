@@ -44,9 +44,9 @@ class MediaLibraryResource extends Resource
                             ->previewable(true)
                             ->reactive()
                             ->maxSize(5120)
-                            ->getUploadedFileUrlUsing(function ($state) {
-                                return is_string($state) ? Storage::disk('public')->url($state) : null;
-                            })
+                            // ->getUploadedFileUrlUsing(function ($state) {
+                            //     return is_string($state) ? Storage::disk('public')->url($state) : null;
+                            // })s
                             ->afterStateUpdated(function ($state, $set, $livewire) {
                                 if ($state) {
                                     $path = $state->getRealPath();
