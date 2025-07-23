@@ -3,12 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-<<<<<<< HEAD
-=======
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Schema; // 1. Tambahkan ini
 use App\Models\Setting;
->>>>>>> d1e372a (Update 23 Juli)
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,11 +22,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-<<<<<<< HEAD
-        //
-    }
-}
-=======
         // 2. Bungkus semua logika dengan pengecekan ini
         if (Schema::hasTable('settings')) {
             // Ambil 1 baris data setting
@@ -62,4 +54,3 @@ class AppServiceProvider extends ServiceProvider
         }
     }
 }
->>>>>>> d1e372a (Update 23 Juli)

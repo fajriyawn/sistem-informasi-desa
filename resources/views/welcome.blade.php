@@ -58,7 +58,7 @@
         
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {{-- Card 1 --}}
-            <div @click="isModalOpen = true; modalImageUrl = '{{ asset('images/IMG_2255.jpg') }}'; modalTitle = 'Status Lingkungan Pesisir'"
+            <div @click="isModalOpen = true; modalImageUrl = '{{ asset('images/IMG_225.jpg') }}'; modalTitle = 'Status Lingkungan Pesisir'"
                  class="group cursor-pointer">
                 <div class="overflow-hidden rounded-lg">
                     <img src="{{ asset('images/IMG_2255.jpg') }}" alt="Status Lingkungan Pesisir" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
