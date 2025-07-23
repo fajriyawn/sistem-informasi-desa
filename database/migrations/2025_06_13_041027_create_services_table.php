@@ -28,7 +28,11 @@ return new class extends Migration
             $table->json('latitude')->nullable();
             $table->json('longitude')->nullable(); 
 
+<<<<<<< HEAD
             $table->string('attachment')->nullable()->after('content');
+=======
+            $table->string('attachment')->nullable(); // Removed ->after('content')
+>>>>>>> d1e372a (Update 23 Juli)
 
             // Kolom dari Rich Editor
             $table->text('content');

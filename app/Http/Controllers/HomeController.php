@@ -16,6 +16,10 @@ class HomeController extends Controller
         $telepon = Setting::first()->telepon ?? 'no. telepon belum dicantumkan.';
         $email = Setting::first()->email ?? 'email belum dicantumkan.';
         $kodePos = Setting::first()->kode_pos ?? 'kode pos belum dicantumkan.';
+<<<<<<< HEAD
+=======
+        $backgroundImage = Setting::first()->background_image ?? 'kode pos belum dicantumkan.';
+>>>>>>> d1e372a (Update 23 Juli)
 
         return view('welcome', compact('deskripsiDesa', 'colorPrimary', 'colorSecondary', 'alamatDesa', 'telepon', 'email', 'kodePos'));
     }

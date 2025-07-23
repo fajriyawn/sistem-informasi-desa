@@ -95,7 +95,7 @@ class SettingResource extends Resource
                                 ->image()
                                 ->disk('public')
                                 ->visibility('public')
-                                ->maxSize(2048), // 2MB
+                                ->maxSize(4096), // 2MB
                             Forms\Components\ColorPicker::make('color_primary')
                                 ->label('Warna Utama')
                                 ->default('#3490dc'),

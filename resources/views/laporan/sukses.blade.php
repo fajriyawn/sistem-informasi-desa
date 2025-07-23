@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="id">
+=======
+>>>>>>> d1e372a (Update 23 Juli)
 <head>
     <meta charset="UTF-8">
     <title>Laporan Berhasil Dikirim</title>
@@ -17,7 +20,11 @@
         </div>
 
         <div class="mt-8">
+<<<<<<< HEAD
             <a href="{{ route('tracker.track', ['tracking_code' => session('tracking_code')]) }}" class="inline-block px-6 py-3 font-semibold text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+=======
+            <a href="{{ route('tracker.lacak', ['tracking_code' => session('tracking_code')]) }}" class="inline-block px-6 py-3 font-semibold text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+>>>>>>> d1e372a (Update 23 Juli)
                 Lacak Laporan Anda Sekarang
             </a>
              <a href="{{ route('laporan.create') }}" class="inline-block mt-2 text-sm text-gray-600 hover:underline">
@@ -26,4 +33,7 @@
         </div>
     </div>
 </body>
+<<<<<<< HEAD
 </html>
+=======
+>>>>>>> d1e372a (Update 23 Juli)

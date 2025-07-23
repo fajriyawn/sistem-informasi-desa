@@ -26,8 +26,16 @@
         </div>
 
         <div class="text-center mt-6">
+<<<<<<< HEAD
             <a href="{{ route('tracker.index') }}" class="text-blue-600 hover:underline">Lacak laporan lain</a>
         </div>
     </div>
 </body>
 </html>
+=======
+            <a href="/pelaporan?tab=tracker" class="text-blue-600 hover:underline">Lacak laporan lain</a>
+        </div>
+    </div>
+</body>
+</html>
+>>>>>>> d1e372a (Update 23 Juli)
