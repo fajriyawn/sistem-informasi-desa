@@ -28,6 +28,8 @@ class PageBuilderResource extends Resource
 
     protected static ?string $pluralLabel = 'Halaman';
 
+    protected static bool $shouldRegisterNavigation = false;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -180,7 +182,7 @@ class PageBuilderResource extends Resource
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
-            
+
         ])
 
 

@@ -34,10 +34,10 @@ class SettingResource extends Resource
     protected static ?string $navigationGroup = 'Pengaturan';
 
     protected static ?string $label = 'Pengaturan Website';
-    
+
     protected static ?string $pluralLabel = 'Pengaturan Website';
 
-    
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {
@@ -55,7 +55,7 @@ class SettingResource extends Resource
                                 ->disk('public')
                                 ->visibility('public')
                                 ->maxSize(1024), // 1MB
-                                
+
                             Forms\Components\Textarea::make('deskripsi_desa')
                                 ->rows(3)
                                 ->maxLength(65535),
@@ -141,7 +141,7 @@ class SettingResource extends Resource
                 ->disk('public')
                 // ->height(30) // optional styling
                 // ->width(30)
-                ->circular(), 
+                ->circular(),
             Tables\Columns\TextColumn::make('updated_at')
                 ->label('Terakhir Diperbarui')
                 ->dateTime(),
@@ -152,7 +152,7 @@ class SettingResource extends Resource
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
-            
+
         ])
         ->bulkActions([]);
     }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
-            
+
             // Kolom dari Grup 1 di Form
             $table->string('name');
             $table->string('phone');
@@ -24,15 +24,11 @@ return new class extends Migration
             $table->string('type');
 
             // Kolom untuk Peta dan Lokasi
-            $table->string('location_name')->nullable(); 
+            $table->string('location_name')->nullable();
             $table->json('latitude')->nullable();
-            $table->json('longitude')->nullable(); 
+            $table->json('longitude')->nullable();
 
-<<<<<<< HEAD
-            $table->string('attachment')->nullable()->after('content');
-=======
-            $table->string('attachment')->nullable(); // Removed ->after('content')
->>>>>>> d1e372a (Update 23 Juli)
+            $table->string('attachment')->nullable();
 
             // Kolom dari Rich Editor
             $table->text('content');
@@ -40,8 +36,8 @@ return new class extends Migration
             $table->string('status')->default('Baru Masuk');
             $table->string('internal_notes')->nullable();
 
-            
-            
+
+
             $table->timestamps();
         });
     }

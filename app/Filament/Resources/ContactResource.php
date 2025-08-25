@@ -26,6 +26,8 @@ class ContactResource extends Resource
 
     protected static ?string $pluralLabel = 'Pesan';
 
+    protected static bool $shouldRegisterNavigation = false;
+
     public static function form(Form $form): Form
     {
         return $form

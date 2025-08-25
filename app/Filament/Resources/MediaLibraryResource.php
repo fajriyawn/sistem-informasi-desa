@@ -24,7 +24,7 @@ class MediaLibraryResource extends Resource
     protected static ?string $navigationGroup = 'Manajemen Konten';
 
     protected static ?string $label = 'Media';
-
+    protected static bool $shouldRegisterNavigation = false;
     protected static ?string $pluralLabel = 'Media';
 
     public static function form(Form $form): Form
@@ -50,7 +50,7 @@ class MediaLibraryResource extends Resource
                             ->afterStateUpdated(function ($state, $set, $livewire) {
                                 if ($state) {
                                     $path = $state->getRealPath();
-                                    
+
                                     // Gunakan $livewire->set() untuk mengisi field lain
                                     $livewire->set('data.file_name', pathinfo($path, PATHINFO_FILENAME));
                                     $livewire->set('data.mime_type', mime_content_type($path));

@@ -23,6 +23,8 @@ class MenuItemResource extends Resource
 
     protected static ?string $label = 'Menu';
 
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static ?string $pluralLabel = 'Menu';
 
     public static function form(Form $form): Form

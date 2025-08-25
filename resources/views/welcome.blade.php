@@ -9,7 +9,7 @@
         {{-- Lapisan Gelap Transparan --}}
         <div class="absolute inset-0 bg-black/60"></div>
     </div>
-    
+
     {{-- Konten Hero --}}
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-full">
         <div class="text-white max-w-2xl">
@@ -27,7 +27,7 @@
 <section class="py-16 sm:py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Lokasi</h2>
-        
+
         {{-- Container untuk Peta --}}
         <div class="w-full h-96 rounded-lg shadow-lg overflow-hidden border border-gray-200">
             <div id="map" class="w-full h-full"></div>
@@ -43,10 +43,10 @@
         </div>
         <div>
             <h2 class="text-3xl font-bold text-gray-800">Selayang Pandang SIMPANDU</h2>
-            <p class="mt-4 text-gray-600 leading-relaxed">Excepteur efficientur emerging, minim veniam enim aute se quid aute. Dolore te export, singulis domesticarum, ut illum nostrud nisi iudicem. Content quis international first-class aute id.</p>
-            <a href="#" class="inline-block mt-8 bg-green-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-green-700 transition-colors">
+            <p class="mt-4 text-gray-600 leading-relaxed text-justify">SIMPANDU merupakan aplikasi Sistem Informasi dan Monitoring Pengelolaan Terpadu yang ditujukan untuk mengintegrasikan data lingkungan dan sosial-ekonomi secara real-time, tetapi juga memfasilitasi integrasi antara warga, pemerintah desa, dan pemangku kepentingan lainnya dalam pengelolaan sumber daya pesisir yang berkelanjutan. Aplikasi ini dirancang sebagai platform digital yang mendukung pengumpulan, pengolahan, analisis, serta penyajian data terkait kondisi pesisir secara real-time maupun periodik. Sistem ini diharapkan dapat membantu masyarakat dalam menjaga lingkungan pesisir dengan ketersediaan data yang akurat dan terintegrasi. Dengan adanya aplikasi ini, pengelolaan wilayah pesisir dapat dilakukan secara lebih efektif, transparan, dan kolaboratif, sehingga keberlanjutan ekosistem laut dan kesejahteraan masyarakat pesisir dapat terjaga.</p>
+            {{-- <a href="#" class="inline-block mt-8 bg-green-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-green-700 transition-colors">
                 Read More
-            </a>
+            </a> --}}
         </div>
     </div>
 </section>
@@ -55,7 +55,7 @@
 <section x-data="{ isModalOpen: false, modalImageUrl: '', modalTitle: '' }" @keydown.escape.window="isModalOpen = false" class="py-16 sm:py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">State of the Ocean Jawa Tengah</h2>
-        
+
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {{-- Card 1 --}}
             <div @click="isModalOpen = true; modalImageUrl = '{{ asset('images/IMG_225.jpg') }}'; modalTitle = 'Status Lingkungan Pesisir'"
@@ -83,7 +83,7 @@
                 </div>
                 <h3 class="mt-4 text-lg font-semibold text-gray-800">Diagram Radar Pembangunan</h3>
             </div>
-            
+
             {{-- Card 4 --}}
             <div @click="isModalOpen = true; modalImageUrl = '{{ asset('images/soc-4.jpg') }}'; modalTitle = 'Matriks Penilaian'"
                  class="group cursor-pointer">
@@ -96,7 +96,7 @@
     </div>
 
     {{-- KODE UNTUK POPUP (MODAL) --}}
-    <div x-show="isModalOpen" 
+    <div x-show="isModalOpen"
          x-transition:enter="ease-out duration-300"
          x-transition:enter-start="opacity-0"
          x-transition:enter-end="opacity-100"
@@ -111,7 +111,7 @@
             <button @click="isModalOpen = false" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
-            
+
             {{-- Judul Gambar (Dinamis) --}}
             <h3 x-text="modalTitle" class="text-xl font-bold mb-4"></h3>
 
@@ -130,7 +130,7 @@
     </div>
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
         <h2 class="text-4xl font-bold">Integrated Coastal Management Plan</h2>
-        <p class="mt-4 max-w-2xl mx-auto">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <p class="mt-4 max-w-2xl mx-auto">Pengelolaan Pesisir Secara Terpadu</p>
         <a href="#" class="inline-block mt-8 bg-white text-green-700 font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-gray-200 transition-colors">
             Read More
         </a>

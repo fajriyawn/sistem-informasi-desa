@@ -8,8 +8,6 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Grid;
-
-// --- PASTIKAN SEMUA USE STATEMENT INI ADA ---
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
@@ -27,8 +25,9 @@ class ServiceResource extends Resource
 {
     protected static ?string $model = Service::class;
     protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
-    protected static ?string $navigationLabel = "Pelayanan";
-    protected static ?string $pluralLabel = 'Pelayanan';
+    protected static ?string $navigationGroup = 'Layanan';
+    protected static ?string $navigationLabel = "Pelaporan";
+    protected static ?string $pluralLabel = 'Pelaporan';
 
     public static function form(Form $form): Form
     {
@@ -92,7 +91,7 @@ class ServiceResource extends Resource
                 TextColumn::make('tracking_code')
                     ->label('Kode Tracking')->searchable(),
 
-                    
+
             ])
             ->filters([
                 // --- FILTER BERDASARKAN STATUS ---

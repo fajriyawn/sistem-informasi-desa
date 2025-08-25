@@ -1,25 +1,17 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="id">
-=======
->>>>>>> d1e372a (Update 23 Juli)
 <head>
     <meta charset="UTF-8">
     <title>Buat Laporan Baru</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<<<<<<< HEAD
 <body class="bg-gray-100 py-12">
-=======
   {{-- @include('frontend.partials.navbar') --}}
 <body class="bg-gray-100 pt-6">
     <br>
->>>>>>> d1e372a (Update 23 Juli)
     <div class="container mx-auto w-full max-w-2xl">
         <div class="bg-white p-8 rounded-lg shadow-md">
             <h1 class="text-3xl font-bold mb-6 text-gray-800">Formulir Laporan Pelayanan Desa</h1>
-
-<<<<<<< HEAD
             @if ($errors->any())
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
                     <strong class="font-bold">Oops!</strong>
@@ -84,11 +76,3 @@
     </div>
 </body>
 </html>
-=======
-            @include('laporan._form')
-        </div>
-    </div>
-    <br>
-</body>
-    {{-- @include('frontend.partials.footer') --}}
->>>>>>> d1e372a (Update 23 Juli)

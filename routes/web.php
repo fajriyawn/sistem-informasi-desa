@@ -1,17 +1,18 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SocController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\LayananController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\LaporanPublikController;
 use App\Http\Controllers\ReportTrackerController;
 use App\Http\Controllers\FileDownloadViewController;
-use App\Http\Controllers\SocController;
-use App\Http\Controllers\GalleryController;
 
 Route::get('/', function () {
-    $colorPrimary = '#0F3A2F'; 
+    $colorPrimary = '#0F3A2F';
     // $backgroundImage = 'hero-background.jpg';
     return view('welcome', compact('colorPrimary', 'backgroundImage'));
 })->name('landing');
@@ -60,3 +61,10 @@ Route::get('/soc/download-form/{report}', [SocController::class, 'showDownloadFo
 Route::post('/soc/download/{report}', [SocController::class, 'processDownload'])->name('soc.download.process');
 
 Route::get('/galeri', [GalleryController::class, 'index'])->name('gallery.index');
+
+Route::get('/layanan', [LayananController::class, 'index'])->name('layanan.index');
+Route::get('/layanan/pengajuan-rehabilitasi', [LayananController::class, 'showProposalForm'])->name('layanan.proposal.form');
+Route::post('/layanan/pengajuan-rehabilitasi', [LayananController::class, 'storeProposal'])->name('layanan.proposal.store');
+
+Route::get('/layanan/pengajuan-pelatihan', [LayananController::class, 'showTrainingForm'])->name('layanan.training.form');
+Route::post('/layanan/pengajuan-pelatihan', [LayananController::class, 'storeTraining'])->name('layanan.training.store');
