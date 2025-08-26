@@ -60,7 +60,7 @@
         <div class="content">
             <p>Halo,</p>
             
-            <p>Terima kasih telah menyampaikan laporan Anda melalui Sistem Informasi Manajemen Pelayanan Administrasi Desa (SIMPANDU). Kami dengan senang hati menginformasikan bahwa laporan Anda telah berhasil diterima dan akan segera ditindaklanjuti oleh tim kami.</p>
+            <p>Terima kasih telah menyampaikan laporan Anda melalui SIMPANDU. Kami dengan senang hati menginformasikan bahwa laporan Anda telah berhasil diterima dan akan segera ditindaklanjuti oleh tim kami.</p>
 
             <div class="tracking-code">
                 <p><strong>Kode Tracking Laporan Anda:</strong></p>
