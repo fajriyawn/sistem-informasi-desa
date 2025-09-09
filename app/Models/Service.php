@@ -22,8 +22,10 @@ class Service extends Model
         'title',
         'type',
         'location_name',
+        'address_detail',
+        'city_name',
         'latitude',
-        'longitude', 
+        'longitude',
         'content',
         'status',
         'internal_notes',
@@ -46,5 +48,5 @@ class Service extends Model
         });
     }
 
-    
+
 }

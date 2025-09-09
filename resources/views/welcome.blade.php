@@ -141,18 +141,94 @@
 
 @section('scripts')
 <script>
-    // Inisialisasi peta dan atur view ke koordinat yang diinginkan dengan level zoom
-    var map = L.map('map').setView([-6.8904411, 110.5644006], 10);
+    // 1. Inisialisasi Peta
+    var map = L.map('map').setView([-6.8904411, 110.5644006], 9);
 
-    // Tambahkan tile layer dari OpenStreetMap
+    // 2. Tambahkan Peta Dasar (Base Layer)
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
-    // (Opsional) Tambahkan marker di lokasi
-    var marker = L.marker([-6.8904411, 110.5644006]).addTo(map)
-        .bindPopup('<b>Lokasi Pesisir Jawa Tengah</b><br>Titik tengah area pantura.')
-        .openPopup();
+    // 3. Siapkan Objek untuk Menyimpan Layer Overlay
+    var overlayLayers = {};
+
+    // --- FUNGSI UNTUK MEMUAT DAN MENAMPILKAN SETIAP FILE GEOJSON ---
+
+    // Fungsi untuk memuat file GeoJSON, memberinya style, dan menambahkannya ke peta
+    function loadGeoJsonLayer(url, layerName, styleOptions) {
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                var geoJsonLayer = L.geoJSON(data, {
+                    style: styleOptions,
+                    onEachFeature: function (feature, layer) {
+                        // Menambahkan popup sederhana dari properti 'NAMOBJ' atau 'name'
+                        if (feature.properties) {
+                            let popupContent = '';
+                            if (feature.properties.WADMKK) {
+                                popupContent = `<strong>${layerName}:</strong> ${feature.properties.WADMKK}`;
+                            } else if (feature.properties.name) {
+                                popupContent = `<strong>${layerName}:</strong> ${feature.properties.name}`;
+                            }
+                            if (popupContent) {
+                                layer.bindPopup(popupContent);
+                            }
+                        }
+                    }
+                }).addTo(map); // Langsung tambahkan layer ke peta saat dimuat
+
+                // Simpan layer ke objek overlayLayers agar bisa dikontrol
+                overlayLayers[layerName] = geoJsonLayer;
+
+                // Setelah semua layer dimuat, tambahkan kontrol layer
+                // (Ini akan dipanggil beberapa kali, tapi hanya yang terakhir yang akan dieksekusi)
+                updateLayerControl();
+            })
+            .catch(error => console.error(`Error memuat ${url}:`, error));
+    }
+
+    loadGeoJsonLayer(
+        "{{ asset('geojson/Semarang.geojson') }}",
+        "Kota Semarang",
+        { fillColor: '#22c55e', weight: 2, color: 'white', fillOpacity: 0.5 }
+    );
+
+    loadGeoJsonLayer(
+        "{{ asset('geojson/Batang.geojson') }}",
+        "Kota Batang",
+        { fillColor: '#3b82f6', weight: 1, color: 'white', fillOpacity: 0.6 }
+    );
+
+    loadGeoJsonLayer(
+        "{{ asset('geojson/Demak.geojson') }}",
+        "Kabupaten Demak",
+        { fillColor: '#facc15', weight: 2, color: 'white', dashArray: '5, 5', fillOpacity: 0.4 }
+    );
+
+    loadGeoJsonLayer(
+        "{{ asset('geojson/Jepara.geojson') }}",
+        "Kota Jepara",
+        { fillColor: '#ef4444', weight: 2, color: 'white', fillOpacity: 0.5 }
+    );
+
+    loadGeoJsonLayer(
+        "{{ asset('geojson/Kendal.geojson') }}",
+        "Kota Kendal",
+        { fillColor: '#8b5cf6', weight: 2, color: 'white', fillOpacity: 0.5 }
+    );
+
+
+    // 4. Tambahkan Kontrol Layer ke Peta
+    var layerControl;
+    function updateLayerControl() {
+        // Hapus kontrol lama jika ada, agar tidak duplikat
+        if (layerControl) {
+            map.removeControl(layerControl);
+        }
+        // Tambahkan kontrol baru dengan semua layer yang sudah dimuat
+        layerControl = L.control.layers(null, overlayLayers).addTo(map);
+    }
+
 </script>
 @endsection

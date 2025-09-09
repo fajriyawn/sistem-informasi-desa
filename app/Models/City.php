@@ -10,4 +10,9 @@ class City extends Model
     {
         return $this->hasMany(SocReport::class);
     }
+
+    public function geographicFeatures()
+    {
+        return $this->hasMany(GeographicFeature::class);
+    }
 }
