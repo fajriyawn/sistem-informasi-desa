@@ -53,7 +53,7 @@
                     <li><a href="/" class="hover:text-gray-300">BERANDA</a></li>
                     <li><a href="/soc" class="hover:text-gray-300">SOC</a></li>
                     <li><a href="#" class="hover:text-gray-300">ICM PLAN</a></li>
-                    <li><a href="/pelaporan" class="hover:text-gray-300">PELAPORAN</a></li>
+                    <li><a href="/laporan" class="hover:text-gray-300">PELAPORAN</a></li>
                     <li><a href="/layanan" class="hover:text-gray-300">LAYANAN</a></li>
                     <li><a href="/galeri" class="hover:text-gray-300">GALERI</a></li>
                 </ul>
@@ -101,8 +101,8 @@
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
         crossorigin=""></script>
 
-    {{-- Yield untuk script spesifik per halaman --}}
-    @yield('scripts')
+    {{-- Stack untuk script spesifik per halaman --}}
+    @stack('scripts')
     {{-- Script untuk landing page --}}
     @if (Route::is('landing'))
     <script>
