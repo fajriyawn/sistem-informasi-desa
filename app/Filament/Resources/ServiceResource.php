@@ -86,6 +86,8 @@ class ServiceResource extends Resource
                         'Terselesaikan' => 'success',
                         'Ditolak' => 'danger',
                         'Butuh Info Tambahan' => 'secondary',
+                        'Diterima' => 'success',
+                        default => 'secondary',
                     })-> searchable(),
                 TextColumn::make('created_at')->label('Tanggal Lapor')->date('d M Y')->sortable(),
                 TextColumn::make('tracking_code')

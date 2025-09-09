@@ -22,19 +22,19 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {{-- Field Nama Lengkap --}}
                         <div>
-                            <label for="name" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
-                            <input type="text" name="name" id="name" value="{{ old('name') }}" required
-                                   class="mt-1 input-style @error('name') input-error @enderror"
+                            <label for="nama_lengkap" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
+                            <input type="text" name="nama_lengkap" id="nama_lengkap" value="{{ old('nama_lengkap') }}" required
+                                   class="mt-1 input-style @error('nama_lengkap') input-error @enderror"
                                    placeholder="Contoh: Budi Santoso">
-                            @error('name') <p class="error-message">{{ $message }}</p> @enderror
+                            @error('nama_lengkap') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                         {{-- Field Nomor Telepon --}}
                         <div>
-                            <label for="phone" class="block text-sm font-medium text-gray-700">Nomor Telepon</label>
-                            <input type="tel" name="phone" id="phone" value="{{ old('phone') }}" required
-                                   class="mt-1 input-style @error('phone') input-error @enderror"
+                            <label for="nomor_telepon" class="block text-sm font-medium text-gray-700">Nomor Telepon</label>
+                            <input type="tel" name="nomor_telepon" id="nomor_telepon" value="{{ old('nomor_telepon') }}" required
+                                   class="mt-1 input-style @error('nomor_telepon') input-error @enderror"
                                    placeholder="Contoh: 081234567890">
-                            @error('phone') <p class="error-message">{{ $message }}</p> @enderror
+                            @error('nomor_telepon') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     </div>
                     {{-- Field Email --}}
@@ -43,76 +43,82 @@
                         <input type="email" name="email" id="email" value="{{ old('email') }}" required
                                class="mt-1 input-style @error('email') input-error @enderror"
                                placeholder="Contoh: budi.santoso@example.com">
-                        @error('email') <p class="error-message">{{ $message }}</p> @enderror
+                        @error('email') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
 
                     {{-- Bagian Detail Laporan --}}
                     <h2 class="text-xl font-semibold text-gray-800 border-b pt-6 pb-2 mb-4">Detail Laporan</h2>
                     {{-- Field Judul Laporan --}}
                     <div>
-                        <label for="title" class="block text-sm font-medium text-gray-700">Judul Laporan</label>
-                        <input type="text" name="title" id="title" value="{{ old('title') }}" required
-                               class="mt-1 input-style @error('title') input-error @enderror"
+                        <label for="judul_laporan" class="block text-sm font-medium text-gray-700">Judul Laporan</label>
+                        <input type="text" name="judul_laporan" id="judul_laporan" value="{{ old('judul_laporan') }}" required
+                               class="mt-1 input-style @error('judul_laporan') input-error @enderror"
                                placeholder="Contoh: Penumpukan Sampah di Pantai A">
-                        @error('title') <p class="error-message">{{ $message }}</p> @enderror
+                        @error('judul_laporan') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {{-- Field Tipe Laporan --}}
                         <div>
-                            <label for="type" class="block text-sm font-medium text-gray-700">Tipe Laporan</label>
-                            <select name="type" id="type" required
-                                    class="mt-1 input-style @error('type') input-error @enderror">
-                                <option value="" disabled {{ old('type') ? '' : 'selected' }}>Pilih Tipe</option>
-                                <option value="Infrastruktur" {{ old('type') == 'Infrastruktur' ? 'selected' : '' }}>Infrastruktur</option>
-                                <option value="Lingkungan" {{ old('type') == 'Lingkungan' ? 'selected' : '' }}>Lingkungan</option>
-                                <option value="Pelayanan Publik" {{ old('type') == 'Pelayanan Publik' ? 'selected' : '' }}>Pelayanan Publik</option>
-                                <option value="Lainnya" {{ old('type') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                            <label for="tipe_laporan" class="block text-sm font-medium text-gray-700">Tipe Laporan</label>
+                            <select name="tipe_laporan" id="tipe_laporan" required
+                                    class="mt-1 input-style @error('tipe_laporan') input-error @enderror">
+                                <option value="" disabled {{ old('tipe_laporan') ? '' : 'selected' }}>Pilih Tipe</option>
+                                <option value="Infrastruktur" {{ old('tipe_laporan') == 'Infrastruktur' ? 'selected' : '' }}>Infrastruktur</option>
+                                <option value="Lingkungan" {{ old('tipe_laporan') == 'Lingkungan' ? 'selected' : '' }}>Lingkungan</option>
+                                <option value="Pelayanan Publik" {{ old('tipe_laporan') == 'Pelayanan Publik' ? 'selected' : '' }}>Pelayanan Publik</option>
+                                <option value="Lainnya" {{ old('tipe_laporan') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
                             </select>
-                            @error('type') <p class="error-message">{{ $message }}</p> @enderror
+                            @error('tipe_laporan') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                         {{-- Field Kabupaten/Kota Lokasi Kejadian --}}
                         <div>
-                            <label for="city_name" class="block text-sm font-medium text-gray-700">Kabupaten/Kota Lokasi</label>
-                            <select id="city_name" name="city_name" required
-                                    class="mt-1 input-style @error('city_name') input-error @enderror">
-                                <option value="" disabled {{ old('city_name') ? '' : 'selected' }}>Pilih Kabupaten/Kota</option>
-                                <option value="Batang" {{ old('city_name') == 'Batang' ? 'selected' : '' }}>Batang</option>
-                                <option value="Jepara" {{ old('city_name') == 'Jepara' ? 'selected' : '' }}>Jepara</option>
-                                <option value="Kendal" {{ old('city_name') == 'Kendal' ? 'selected' : '' }}>Kendal</option>
-                                <option value="Demak" {{ old('city_name') == 'Demak' ? 'selected' : '' }}>Demak</option>
-                                <option value="Semarang" {{ old('city_name') == 'Semarang' ? 'selected' : '' }}>Semarang</option>
+                            <label for="kabupaten_kota_lokasi" class="block text-sm font-medium text-gray-700">Kabupaten/Kota Lokasi</label>
+                            <select id="kabupaten_kota_lokasi" name="kabupaten_kota_lokasi" required
+                                    class="mt-1 input-style @error('kabupaten_kota_lokasi') input-error @enderror">
+                                <option value="" disabled {{ old('kabupaten_kota_lokasi') ? '' : 'selected' }}>Pilih Kabupaten/Kota</option>
+                                <option value="Batang" {{ old('kabupaten_kota_lokasi') == 'Batang' ? 'selected' : '' }}>Batang</option>
+                                <option value="Jepara" {{ old('kabupaten_kota_lokasi') == 'Jepara' ? 'selected' : '' }}>Jepara</option>
+                                <option value="Kendal" {{ old('kabupaten_kota_lokasi') == 'Kendal' ? 'selected' : '' }}>Kendal</option>
+                                <option value="Demak" {{ old('kabupaten_kota_lokasi') == 'Demak' ? 'selected' : '' }}>Demak</option>
+                                <option value="Semarang" {{ old('kabupaten_kota_lokasi') == 'Semarang' ? 'selected' : '' }}>Semarang</option>
                             </select>
-                            @error('city_name') <p class="error-message">{{ $message }}</p> @enderror
+                            @error('kabupaten_kota_lokasi') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     </div>
                     {{-- Field Detail Alamat Kejadian --}}
                     <div>
-                        <label for="address_detail" class="block text-sm font-medium text-gray-700">Detail Alamat Kejadian</label>
-                        <input type="text" name="address_detail" id="address_detail" value="{{ old('address_detail') }}" required
-                               class="mt-1 input-style @error('address_detail') input-error @enderror"
+                        <label for="detail_alamat" class="block text-sm font-medium text-gray-700">Detail Alamat Kejadian</label>
+                        <input type="text" name="detail_alamat" id="detail_alamat" value="{{ old('detail_alamat') }}" required
+                               class="mt-1 input-style @error('detail_alamat') input-error @enderror"
                                placeholder="Contoh: Jl. Pesisir Indah, Desa Mulyorejo, Kec. Tirto">
-                        @error('address_detail') <p class="error-message">{{ $message }}</p> @enderror
+                        @error('detail_alamat') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     {{-- Field Isi Laporan --}}
                     <div>
-                        <label for="content" class="block text-sm font-medium text-gray-700">Isi Laporan</label>
-                        <textarea name="content" id="content" rows="6" required
-                                  class="mt-1 input-style @error('content') input-error @enderror"
-                                  placeholder="Jelaskan secara rinci laporan atau masukan Anda di sini.">{{ old('content') }}</textarea>
-                        @error('content') <p class="error-message">{{ $message }}</p> @enderror
+                        <label for="isi_laporan" class="block text-sm font-medium text-gray-700">Isi Laporan</label>
+                        <textarea name="isi_laporan" id="isi_laporan" rows="6" required
+                                  class="mt-1 input-style @error('isi_laporan') input-error @enderror"
+                                  placeholder="Jelaskan secara rinci laporan atau masukan Anda di sini.">{{ old('isi_laporan') }}</textarea>
+                        @error('isi_laporan') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
 
                     {{-- Field Lampiran --}}
                     <div>
-                        <label for="attachment" class="block text-sm font-medium text-gray-700">Lampiran (Opsional)</label>
-                        <input type="file" name="attachment" id="attachment"
+                        <label for="lampiran" class="block text-sm font-medium text-gray-700">Lampiran (Opsional)</label>
+                        <input type="file" name="lampiran" id="lampiran"
                                class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
-                        @error('attachment') <p class="error-message">{{ $message }}</p> @enderror
+                        @error('lampiran') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
 
                 {{-- Tombol Kirim --}}
+                <div class="mb-4">
+                    <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
+                    @error('g-recaptcha-response')
+                        <p class="error-message">{{ $message }}</p>
+                    @enderror
+                </div>
                 <div class="mt-8">
                     <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                         Kirim Laporan
@@ -123,6 +129,7 @@
     </div>
 </div>
 
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 {{-- Tambahkan style global untuk input-style dan error-message di bagian bawah file ini atau di CSS utama --}}
 <style>
     .input-style {
