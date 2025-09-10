@@ -139,7 +139,7 @@
 
 @endsection
 
-@section('scripts')
+@push('scripts')
 <script>
     // 1. Inisialisasi Peta
     var map = L.map('map').setView([-6.8904411, 110.5644006], 9);
@@ -231,4 +231,4 @@
     }
 
 </script>
-@endsection
+@endpush
