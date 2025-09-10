@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Proposal;
 use Illuminate\Http\Request;
 use App\Models\TrainingRegistration;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\ValidationException;
 
 class LayananController extends Controller
 {
@@ -23,15 +25,30 @@ class LayananController extends Controller
     // Menyimpan data dari form
     public function storeProposal(Request $request)
     {
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
-            'phone' => 'required|string|max:20',
+            'phone' => 'required|numeric|digits_between:10,15',
             'organization' => 'nullable|string|max:255',
             'location' => 'required|string|max:255',
             'description' => 'required|string',
             'proposal_file' => 'nullable|file|mimes:pdf,doc,docx|max:5120', // maks 5MB
         ]);
+
+        // Validasi Google reCAPTCHA v2
+        $recaptchaResponse = $request->input('g-recaptcha-response');
+        $recaptchaSecret = config('services.recaptcha.secret_key');
+        $recaptcha = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => $recaptchaSecret,
+            'response' => $recaptchaResponse,
+            'remoteip' => $request->ip(),
+        ]);
+        if (!($recaptcha->json('success') ?? false)) {
+            throw ValidationException::withMessages([
+                'g-recaptcha-response' => ['Verifikasi reCAPTCHA gagal. Silakan coba lagi.']
+            ]);
+        }
 
         $filePath = null;
         if ($request->hasFile('proposal_file')) {
@@ -60,16 +77,31 @@ class LayananController extends Controller
     // Menyimpan data dari form pelatihan
     public function storeTraining(Request $request)
     {
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
-            'phone' => 'required|string|max:20',
+            'phone' => 'required|numeric|digits_between:10,15',
             'organization_name' => 'required|string|max:255',
             'participant_count' => 'required|integer|min:1',
             'training_topic' => 'required|string|max:255',
             'proposed_date' => 'required|date',
             'message' => 'nullable|string',
         ]);
+
+        // Validasi Google reCAPTCHA v2
+        $recaptchaResponse = $request->input('g-recaptcha-response');
+        $recaptchaSecret = config('services.recaptcha.secret_key');
+        $recaptcha = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => $recaptchaSecret,
+            'response' => $recaptchaResponse,
+            'remoteip' => $request->ip(),
+        ]);
+        if (!($recaptcha->json('success') ?? false)) {
+            throw ValidationException::withMessages([
+                'g-recaptcha-response' => ['Verifikasi reCAPTCHA gagal. Silakan coba lagi.']
+            ]);
+        }
 
         TrainingRegistration::create($validated);
 

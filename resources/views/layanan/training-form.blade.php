@@ -57,6 +57,13 @@
                     <label for="message" class="block text-sm font-medium text-gray-700">Pesan Tambahan (Opsional)</label>
                     <textarea name="message" rows="4" class="mt-1 block w-full input-style">{{ old('message') }}</textarea>
                 </div>
+                <!-- Google reCAPTCHA v2 Widget -->
+                <div class="mb-4 flex flex-col items-center">
+                    <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
+                    @error('g-recaptcha-response')
+                        <span class="text-red-600 text-sm mt-2">{{ $message }}</span>
+                    @enderror
+                </div>
                 <div class="pt-4">
                     <button type="submit" class="w-full inline-flex justify-center py-3 px-4 btn-submit">
                         Kirim Pendaftaran
@@ -67,4 +74,6 @@
     </div>
 </div>
 <style>.input-style {border-radius: 0.375rem; border: 1px solid #D1D5DB; width: 100%; padding: 0.5rem 0.75rem;} .btn-submit{background-color: #2563EB; color: white; font-weight: 600; border-radius: 0.375rem;}</style>
+<!-- Google reCAPTCHA API -->
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @endsection
