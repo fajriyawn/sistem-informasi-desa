@@ -50,6 +50,13 @@
                     <label for="proposal_file" class="block text-sm font-medium text-gray-700">Unggah Proposal Lengkap (Opsional, maks. 5MB)</label>
                     <input type="file" name="proposal_file" id="proposal_file" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
                 </div>
+                <!-- Google reCAPTCHA v2 Widget -->
+                <div class="mb-4 flex flex-col items-center">
+                    <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
+                    @error('g-recaptcha-response')
+                        <span class="text-red-600 text-sm mt-2">{{ $message }}</span>
+                    @enderror
+                </div>
                 <div class="pt-4">
                     <button type="submit" class="w-full inline-flex justify-center py-3 px-4 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                         Kirim Pengajuan
@@ -58,5 +65,8 @@
             </form>
         </div>
     </div>
+
+<!-- Google reCAPTCHA API -->
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </div>
 @endsection
