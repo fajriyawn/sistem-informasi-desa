@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Proposal;
 use Illuminate\Http\Request;
 use App\Models\TrainingRegistration;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TrainingRegistrationSuccessMail;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\ValidationException;
 
@@ -103,7 +105,10 @@ class LayananController extends Controller
             ]);
         }
 
-        TrainingRegistration::create($validated);
+
+    TrainingRegistration::create($validated);
+    // Kirim email notifikasi ke pendaftar
+    Mail::to($validated['email'])->send(new TrainingRegistrationSuccessMail($validated));
 
         return redirect()->route('layanan.index')
             ->with('success', 'Terima kasih! Pendaftaran pelatihan Anda telah berhasil dikirim. Kami akan segera menghubungi Anda.');
