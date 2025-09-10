@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\TrainingRegistration;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\TrainingRegistrationSuccessMail;
+use App\Mail\ProposalSubmittedMail;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\ValidationException;
 
@@ -57,6 +58,7 @@ class LayananController extends Controller
             $filePath = $request->file('proposal_file')->store('proposals', 'public');
         }
 
+
         Proposal::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
@@ -66,6 +68,8 @@ class LayananController extends Controller
             'description' => $validated['description'],
             'file_path' => $filePath,
         ]);
+        // Kirim email notifikasi ke pengaju
+        Mail::to($validated['email'])->send(new ProposalSubmittedMail($validated));
 
         return redirect()->route('layanan.index')
             ->with('success', 'Terima kasih! Pengajuan Anda telah berhasil dikirim dan akan segera kami review.');
