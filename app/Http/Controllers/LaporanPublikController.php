@@ -36,7 +36,7 @@ class LaporanPublikController extends Controller
         // 1. Validasi form
         $validated = $request->validate([
             'nama_lengkap' => 'required|string|max:100',
-            'nomor_telepon' => 'required|string|max:20',
+            'nomor_telepon' => 'required|numeric|digits_between:10,15',
             'email' => 'required|email|max:100',
             'judul_laporan' => 'required|string|max:255',
             'tipe_laporan' => 'required|string|max:50',
