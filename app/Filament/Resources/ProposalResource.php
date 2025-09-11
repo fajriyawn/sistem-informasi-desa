@@ -3,21 +3,22 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProposalResource\Pages;
-use App\Filament\Resources\ProposalResource\RelationManagers;
 use App\Models\Proposal;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Components\ViewEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ProposalResource extends Resource
 {
     protected static ?string $model = Proposal::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static ?string $navigationGroup = 'Layanan';
     protected static ?string $navigationLabel = "Layanan Rehabilitasi";
     protected static ?string $pluralLabel = 'Layanan Rehabilitasi';
@@ -48,6 +49,7 @@ class ProposalResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')->searchable(),
+                Tables\Columns\TextColumn::make('organization')->searchable(),
                 Tables\Columns\TextColumn::make('location')->searchable(),
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
@@ -56,6 +58,7 @@ class ProposalResource extends Resource
                         'Sedang Diproses' => 'primary',
                         'Disetujui' => 'success',
                         'Ditolak' => 'danger',
+                        default => 'gray',
                     }),
                 Tables\Columns\TextColumn::make('created_at')->label('Tanggal Pengajuan')->dateTime()->sortable(),
             ])
@@ -72,6 +75,30 @@ class ProposalResource extends Resource
                 ]),
             ])
             ->defaultSort('created_at', 'desc');
+    }
+
+    // Ini adalah method baru Anda yang sudah ditempatkan dengan benar
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make('Informasi Pengaju')
+                    ->columns(2)
+                    ->schema([
+                        TextEntry::make('name')->label('Nama'),
+                        TextEntry::make('email')->label('Email'),
+                        TextEntry::make('phone')->label('Telepon'),
+                        TextEntry::make('organization')->label('Organisasi'),
+                    ]),
+                Section::make('Detail Pengajuan')
+                    ->schema([
+                        TextEntry::make('location')->label('Lokasi'),
+                        TextEntry::make('description')->label('Deskripsi')->columnSpanFull(),
+                        ViewEntry::make('file_path')
+                            ->view('filament.infolists.components.file-preview')
+                            ->label(''),
+                    ]),
+            ]);
     }
 
     public static function getRelations(): array
