@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Setting;
+use App\Models\SocSection;
 
 class HomeController extends Controller
 {
@@ -18,6 +19,7 @@ class HomeController extends Controller
         $kodePos = Setting::first()->kode_pos ?? 'kode pos belum dicantumkan.';
         $backgroundImage = Setting::first()->background_image ?? 'kode pos belum dicantumkan.';
 
-        return view('welcome', compact('deskripsiDesa', 'colorPrimary', 'colorSecondary', 'alamatDesa', 'telepon', 'email', 'kodePos'));
+    $socSections = SocSection::all();
+    return view('welcome', compact('deskripsiDesa', 'colorPrimary', 'colorSecondary', 'alamatDesa', 'telepon', 'email', 'kodePos', 'socSections'));
     }
 }

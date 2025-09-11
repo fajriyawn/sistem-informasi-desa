@@ -27,7 +27,6 @@
 <section class="py-16 sm:py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Lokasi</h2>
-
         {{-- Container untuk Peta --}}
         <div class="w-full h-96 rounded-lg shadow-lg overflow-hidden border border-gray-200">
             <div id="map" class="w-full h-full"></div>
@@ -44,80 +43,49 @@
         <div>
             <h2 class="text-3xl font-bold text-gray-800">Selayang Pandang SIMPANDU</h2>
             <p class="mt-4 text-gray-600 leading-relaxed text-justify">SIMPANDU merupakan aplikasi Sistem Informasi dan Monitoring Pengelolaan Terpadu yang ditujukan untuk mengintegrasikan data lingkungan dan sosial-ekonomi secara real-time, tetapi juga memfasilitasi integrasi antara warga, pemerintah desa, dan pemangku kepentingan lainnya dalam pengelolaan sumber daya pesisir yang berkelanjutan. Aplikasi ini dirancang sebagai platform digital yang mendukung pengumpulan, pengolahan, analisis, serta penyajian data terkait kondisi pesisir secara real-time maupun periodik. Sistem ini diharapkan dapat membantu masyarakat dalam menjaga lingkungan pesisir dengan ketersediaan data yang akurat dan terintegrasi. Dengan adanya aplikasi ini, pengelolaan wilayah pesisir dapat dilakukan secara lebih efektif, transparan, dan kolaboratif, sehingga keberlanjutan ekosistem laut dan kesejahteraan masyarakat pesisir dapat terjaga.</p>
-            {{-- <a href="#" class="inline-block mt-8 bg-green-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-green-700 transition-colors">
-                Read More
-            </a> --}}
         </div>
     </div>
 </section>
 
-{{-- 4. STATE OF THE OCEAN SECTION --}}
-<section x-data="{ isModalOpen: false, modalImageUrl: '', modalTitle: '' }" @keydown.escape.window="isModalOpen = false" class="py-16 sm:py-24 bg-white">
+{{-- 4. STATE OF THE OCEAN SECTION (YANG DIPERBAIKI TOTAL) --}}
+{{-- Inisialisasi Alpine.js dengan memanggil fungsi socSection() --}}
+<section x-data="socSection()" @keydown.escape.window="isModalOpen = false" class="py-16 sm:py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">State of the Ocean Jawa Tengah</h2>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {{-- Card 1 --}}
-            <div @click="isModalOpen = true; modalImageUrl = '{{ asset('images/IMG_225.jpg') }}'; modalTitle = 'Status Lingkungan Pesisir'"
-                 class="group cursor-pointer">
-                <div class="overflow-hidden rounded-lg">
-                    <img src="{{ asset('images/IMG_2255.jpg') }}" alt="Status Lingkungan Pesisir" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
-                </div>
+            {{-- Card-card ini sekarang hanya memanggil fungsi openModal --}}
+            <div @click="openModal('status-lingkungan-pesisir')" class="group cursor-pointer">
+                <div class="overflow-hidden rounded-lg"><img src="{{ asset('images/IMG_2255.jpg') }}" alt="Status Lingkungan Pesisir" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"></div>
                 <h3 class="mt-4 text-lg font-semibold text-gray-800">Status Lingkungan Pesisir</h3>
             </div>
-
-            {{-- Card 2 --}}
-            <div @click="isModalOpen = true; modalImageUrl = '{{ asset('images/soc-2.jpg') }}'; modalTitle = 'Diagram Radar Tata Kelola'"
-                 class="group cursor-pointer">
-                <div class="overflow-hidden rounded-lg">
-                    <img src="{{ asset('images/IMG_0699.jpg') }}" alt="Diagram Radar Tata Kelola" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
-                </div>
+            <div @click="openModal('diagram-radar-tata-kelola')" class="group cursor-pointer">
+                <div class="overflow-hidden rounded-lg"><img src="{{ asset('images/IMG_0699.jpg') }}" alt="Diagram Radar Tata Kelola" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"></div>
                 <h3 class="mt-4 text-lg font-semibold text-gray-800">Diagram Radar Tata Kelola</h3>
             </div>
-
-            {{-- Card 3 --}}
-            <div @click="isModalOpen = true; modalImageUrl = '{{ asset('images/soc-3.jpg') }}'; modalTitle = 'Diagram Radar Pembangunan'"
-                 class="group cursor-pointer">
-                <div class="overflow-hidden rounded-lg">
-                    <img src="{{ asset('images/IMG_2358.jpg') }}" alt="Diagram Radar Pembangunan" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
-                </div>
+            <div @click="openModal('diagram-radar-pembangunan')" class="group cursor-pointer">
+                <div class="overflow-hidden rounded-lg"><img src="{{ asset('images/IMG_2358.jpg') }}" alt="Diagram Radar Pembangunan" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"></div>
                 <h3 class="mt-4 text-lg font-semibold text-gray-800">Diagram Radar Pembangunan</h3>
             </div>
-
-            {{-- Card 4 --}}
-            <div @click="isModalOpen = true; modalImageUrl = '{{ asset('images/soc-4.jpg') }}'; modalTitle = 'Matriks Penilaian'"
-                 class="group cursor-pointer">
-                <div class="overflow-hidden rounded-lg">
-                    <img src="{{ asset('images/IMG_2194.jpg') }}" alt="Matriks Penilaian" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
-                </div>
+            <div @click="openModal('matriks-penilaian')" class="group cursor-pointer">
+                <div class="overflow-hidden rounded-lg"><img src="{{ asset('images/IMG_2194.jpg') }}" alt="Matriks Penilaian" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"></div>
                 <h3 class="mt-4 text-lg font-semibold text-gray-800">Matriks Penilaian</h3>
             </div>
         </div>
     </div>
 
-    {{-- KODE UNTUK POPUP (MODAL) --}}
-    <div x-show="isModalOpen"
-         x-transition:enter="ease-out duration-300"
-         x-transition:enter-start="opacity-0"
-         x-transition:enter-end="opacity-100"
-         x-transition:leave="ease-in duration-200"
-         x-transition:leave-start="opacity-100"
-         x-transition:leave-end="opacity-0"
-         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-75"
-         style="display: none;"> {{-- style="display: none;" untuk mencegah FOUC --}}
-
-        <div @click.away="isModalOpen = false" class="relative bg-white rounded-lg shadow-xl max-w-3xl w-full p-4">
-            {{-- Tombol Close --}}
-            <button @click="isModalOpen = false" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800">
+    {{-- POPUP (MODAL) --}}
+    <div x-show="isModalOpen" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-75" style="display: none;">
+        <div @click.away="isModalOpen = false" class="relative bg-white rounded-lg shadow-xl max-w-3xl w-full p-6">
+            <button @click="isModalOpen = false" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
-
-            {{-- Judul Gambar (Dinamis) --}}
-            <h3 x-text="modalTitle" class="text-xl font-bold mb-4"></h3>
-
-            {{-- Konten Gambar (Dinamis) --}}
-            <div class="w-full">
-                <img :src="modalImageUrl" alt="Gambar Popup" class="w-full h-auto max-h-[80vh] object-contain">
+            <h3 x-text="modalTitle" class="text-2xl font-bold mb-4"></h3>
+            <div class="w-full text-center">
+                <img :src="modalImageUrl" alt="Gambar Popup" class="w-full h-auto max-h-[70vh] object-contain rounded-md mb-6">
+                <a href="/soc" class="inline-block px-8 py-3 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 transition-transform transform hover:scale-105" style="text-decoration: none;">
+                    Lihat Detail SOC
+                </a>
             </div>
         </div>
     </div>
@@ -136,8 +104,39 @@
         </a>
     </div>
 </section>
-
 @endsection
+
+{{-- Pindahkan script Alpine.js ke @section terpisah agar tidak konflik --}}
+@push('scripts')
+<script>
+    // Fungsi ini mendefinisikan semua data dan logika untuk section SOC
+    function socSection() {
+        return {
+            isModalOpen: false,
+            modalTitle: '',
+            modalImageUrl: '',
+            // Mengambil data dari controller Laravel dan mengubahnya menjadi objek JavaScript
+            sections: @json($socSections ?? []),
+            
+            // Fungsi yang dipanggil saat card di-klik
+            openModal(key) {
+                // Cari data yang sesuai berdasarkan 'key' unik
+                const section = this.sections.find(s => s.key === key);
+                
+                // Jika data ditemukan dan memiliki gambar, update properti modal
+                if (section && section.image_path) {
+                    this.modalTitle = section.title;
+                    this.modalImageUrl = `/storage/${section.image_path}`; // URL gambar yang benar
+                    this.isModalOpen = true; // Tampilkan modal
+                } else {
+                    // Beri peringatan di console jika gambar belum di-upload dari admin
+                    console.warn(`Data atau gambar untuk key '${key}' tidak ditemukan.`);
+                }
+            }
+        }
+    }
+</script>
+@endpush
 
 @push('scripts')
 <script>
