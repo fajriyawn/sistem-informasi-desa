@@ -21,6 +21,10 @@ class SocSectionResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Manajemen Konten';
+
+    protected static ?string $pluralLabel = 'Konten SOC';
+
     public static function form(Form $form): Form
     {
         return $form
