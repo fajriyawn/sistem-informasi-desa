@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Filament\Resources;
 
 use Filament\Tables;
@@ -18,6 +17,7 @@ use Filament\Tables\Enums\FiltersLayout;
 use Filament\Forms\Components\RichEditor;
 use Filament\Tables\Filters\SelectFilter;
 use App\Filament\Resources\ServiceResource\Pages;
+use Filament\Forms\Components\FileUpload;
 use Dom\Text;
 use FormsComponents\Filament\Forms\Components\MapPicker;
 
@@ -33,41 +33,40 @@ class ServiceResource extends Resource
     {
         return $form
             ->schema([
-                // Grup field utama kita letakkan dalam Grid agar rapi
-                Grid::make(2)->schema([
-                    // Kolom Kiri: Informasi Laporan
-                    Section::make('Detail Laporan')
-                        ->schema([
-                            TextInput::make('name')->label('Nama Lengkap')->required(),
-                            TextInput::make('phone')->label('Nomor Telepon')->tel()->required(),
-                            TextInput::make('email')->label('Email')->email()->required(),
-                            TextInput::make('title')->label('Judul Laporan')->required(),
-                            RichEditor::make('content')->label('Isi Laporan')->required()->columnSpanFull(),
+                Section::make('Data Diri Pelapor')
+                    ->schema([
+                        Grid::make(2)->schema([
+                            TextInput::make('name')->label('Nama Lengkap'),
+                            TextInput::make('phone')->label('Nomor Telepon'),
                         ]),
-
-                    // Kolom Kanan: Atribut dan Status
-                    Section::make('Atribut & Status')
-                        ->schema([
-                            Select::make('type')->label('Type')->options(['laporan' => 'Laporan','kontribusi' => 'Kontribusi','lainnya' => 'Lainnya',])->required(),
-                            TextInput::make('location_name')->label('Nama Daerah Laporan (Opsional)'),
-                            TextInput::make('latitude'),
-                            TextInput::make('longitude'),
-
-                            // --- BAGIAN UNTUK MENGUBAH STATUS ---
-                            Select::make('status')
+                        TextInput::make('email')->label('Email')->columnSpanFull(),
+                    ]),
+                Section::make('Detail Laporan')
+                    ->schema([
+                        TextInput::make('title')->label('Judul Laporan'),
+                        Grid::make(2)->schema([
+                            Select::make('type')
+                                ->label('Tipe Laporan')
                                 ->options([
-                                    'Baru Masuk' => 'Baru Masuk',
-                                    'Sedang Diproses' => 'Sedang Diproses',
-                                    'Terselesaikan' => 'Terselesaikan',
-                                    'Ditolak' => 'Ditolak',
-                                    'Butuh Info Tambahan' => 'Butuh Info Tambahan',
-                                ])
-                                ->required(),
-                            Textarea::make('internal_notes')
-                                ->label('Catatan Internal (Untuk Admin)')
-                                ->rows(4),
+                                    'Infrastruktur' => 'Infrastruktur',
+                                    'Lingkungan' => 'Lingkungan',
+                                    'Pelayanan Publik' => 'Pelayanan Publik',
+                                    'Lainnya' => 'Lainnya',
+                                ]),
+                            Select::make('city_name')
+                                ->label('Kabupaten/Kota Lokasi')
+                                ->options([
+                                    'Batang' => 'Batang',
+                                    'Jepara' => 'Jepara',
+                                    'Kendal' => 'Kendal',
+                                    'Demak' => 'Demak',
+                                    'Semarang' => 'Semarang',
+                                ]),
                         ]),
-                ])->columns(2),
+                        TextInput::make('address_detail')->label('Detail Alamat Kejadian'),
+                        Textarea::make('content')->label('Isi Laporan'),
+                        FileUpload::make('attachment')->label('Lampiran'),
+                    ]),
             ]);
     }
 
