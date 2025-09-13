@@ -21,7 +21,7 @@ class SocReportResource extends Resource
 {
     protected static ?string $model = SocReport::class;
 
-    protected static ?string $navigationGroup = 'SOC';
+    protected static ?string $navigationGroup = 'ICM Plan & SOC';
 
     protected static ?string $label = 'Daftar Laporan SOC';
 

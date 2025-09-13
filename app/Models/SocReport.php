@@ -31,6 +31,6 @@ class SocReport extends Model
      */
     public function downloadLogs()
     {
-        return $this->hasMany(DownloadLog::class);
+        return $this->morphMany(DownloadLog::class, 'downloadable');
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\City; 
+use App\Models\City;
 use Illuminate\Http\Request;
 use App\Models\SocReport;
 use Illuminate\Support\Facades\Storage;
@@ -12,14 +12,17 @@ class SocController extends Controller
 {
     public function index()
     {
+        $provinceName = 'Jawa Tengah';
+
         $cities = City::has('socReports')
                       ->with(['socReports' => function ($query) {
                           $query->orderBy('tahun', 'desc');
                       }])
+                      // Tambahkan dua baris orderBy ini:
+                      ->orderByRaw("CASE WHEN name = ? THEN 0 ELSE 1 END", [$provinceName])
                       ->orderBy('name', 'asc')
                       ->get();
 
-        // Kirim data 'cities' ke view 'soc.index'
         return view('soc.index', compact('cities'));
     }
 

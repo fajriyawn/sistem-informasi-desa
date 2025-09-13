@@ -16,11 +16,12 @@ class UserSeeder extends Seeder
     {
         User::updateOrCreate(
             [
-                'email' => 'admin@simpandu.test', 
+                'email' => 'admin@simpandu.test',
             ],
             [
                 'name' => 'Admin Simpandu',
-                'password' => Hash::make('password'), 
+                'username' => 'admin',
+                'password' => Hash::make('password'),
             ]
         );
     }

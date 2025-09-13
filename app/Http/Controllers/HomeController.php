@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\City;
 use App\Models\Setting;
+use App\Models\MapPoint;
 use App\Models\SocSection;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -18,8 +20,10 @@ class HomeController extends Controller
         $email = Setting::first()->email ?? 'email belum dicantumkan.';
         $kodePos = Setting::first()->kode_pos ?? 'kode pos belum dicantumkan.';
         $backgroundImage = Setting::first()->background_image ?? 'kode pos belum dicantumkan.';
+        $cities = City::with('regionalData')->get();
+        $socSections = SocSection::all();
 
-    $socSections = SocSection::all();
-    return view('welcome', compact('deskripsiDesa', 'colorPrimary', 'colorSecondary', 'alamatDesa', 'telepon', 'email', 'kodePos', 'socSections'));
+
+    return view('welcome', compact('deskripsiDesa', 'colorPrimary', 'colorSecondary', 'alamatDesa', 'telepon', 'email', 'kodePos', 'socSections', 'cities'));
     }
 }

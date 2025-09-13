@@ -10,5 +10,4 @@
         </x-filament-panels::form>
     @endif
 
-    {{-- ...existing code... --}}
 </x-filament-panels::page.simple>

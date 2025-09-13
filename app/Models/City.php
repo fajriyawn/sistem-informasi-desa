@@ -11,8 +11,19 @@ class City extends Model
         return $this->hasMany(SocReport::class);
     }
 
-    public function geographicFeatures()
+    // public function geographicFeatures()
+    // {
+    //     return $this->hasMany(GeographicFeature::class);
+    // }
+
+    public function regionalData()
     {
-        return $this->hasMany(GeographicFeature::class);
+        return $this->hasMany(RegionalData::class);
     }
+
+    public function icmPlans()
+    {
+        return $this->hasMany(IcmPlan::class);
+    }
+
 }

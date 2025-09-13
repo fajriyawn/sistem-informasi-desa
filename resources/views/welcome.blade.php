@@ -2,6 +2,18 @@
 
 @section('content')
 
+<div x-data="{
+    isDrawerOpen: false,
+    drawerTitle: '',
+    drawerData: [],
+    openDrawer(city) {
+        this.drawerTitle = `Data Detail untuk ${city.name}`;
+        this.drawerData = city.regional_data;
+        this.isDrawerOpen = true;
+    }
+}"
+@open-drawer.window="openDrawer($event.detail.city)">
+
 {{-- 1. HERO SECTION --}}
 <section class="relative w-full h-screen">
     {{-- Background Image --}}
@@ -104,6 +116,76 @@
         </a>
     </div>
 </section>
+
+{{-- SIDE DRAWER UNTUK MENAMPILKAN DATA --}}
+<div x-show="isDrawerOpen"
+     @keydown.escape.window="isDrawerOpen = false"
+     class="fixed inset-0 z-50 overflow-hidden"
+     style="display: none;">
+
+    {{-- Latar belakang gelap --}}
+    <div x-show="isDrawerOpen" x-transition:enter="ease-in-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="ease-in-out duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+         class="absolute inset-0 bg-gray-600 bg-opacity-75"
+         @click="isDrawerOpen = false"></div>
+
+    {{-- Kontainer untuk panel --}}
+    {{-- Posisi diubah ke kiri (inset-y-0 left-0) --}}
+    <section class="absolute inset-y-0 left-0 flex">
+        <div x-show="isDrawerOpen"
+             x-transition:enter="transform transition ease-in-out duration-300"
+             x-transition:enter-start="-translate-x-full" {{-- Animasi dari kiri --}}
+             x-transition:enter-end="translate-x-0"
+             x-transition:leave="transform transition ease-in-out duration-300"
+             x-transition:leave-start="translate-x-0"
+             x-transition:leave-end="-translate-x-full" {{-- Animasi ke kiri --}}
+
+             {{-- Ukuran: full di mobile, 1/4 layar di desktop --}}
+             class="w-screen max-w-md md:w-4/4">
+
+            {{-- Ini adalah panelnya --}}
+            <div class="h-full flex flex-col bg-white shadow-xl">
+                {{-- Header Panel (rounded-t-2xl dihapus) --}}
+                <div class="py-4 px-6 bg-green-700 text-white">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-xl font-bold" x-text="drawerTitle"></h2>
+                        <button @click="isDrawerOpen = false" class="text-2xl font-light leading-none">&times;</button>
+                    </div>
+                </div>
+                {{-- Konten Tabel --}}
+                    <div class="relative flex-1 py-6 px-6 overflow-y-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Indikator</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nilai</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tahun</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sumber</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                {{-- Data akan diisi oleh Alpine.js --}}
+                                <template x-for="row in drawerData" :key="row.id">
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" x-text="row.indicator_name"></td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" x-text="row.indicator_value"></td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" x-text="row.year"></td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" x-text="row.source"></td>
+                                    </tr>
+                                </template>
+                                {{-- Pesan jika data kosong --}}
+                                <template x-if="drawerData.length === 0">
+                                    <tr>
+                                        <td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500">Belum ada data untuk wilayah ini.</td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
 @endsection
 
 {{-- Pindahkan script Alpine.js ke @section terpisah agar tidak konflik --}}
@@ -117,12 +199,12 @@
             modalImageUrl: '',
             // Mengambil data dari controller Laravel dan mengubahnya menjadi objek JavaScript
             sections: @json($socSections ?? []),
-            
+
             // Fungsi yang dipanggil saat card di-klik
             openModal(key) {
                 // Cari data yang sesuai berdasarkan 'key' unik
                 const section = this.sections.find(s => s.key === key);
-                
+
                 // Jika data ditemukan dan memiliki gambar, update properti modal
                 if (section && section.image_path) {
                     this.modalTitle = section.title;
@@ -140,94 +222,44 @@
 
 @push('scripts')
 <script>
-    // 1. Inisialisasi Peta
-    var map = L.map('map').setView([-6.8904411, 110.5644006], 9);
+    document.addEventListener('DOMContentLoaded', function () {
+        var map = L.map('map').setView([-6.8904411, 110.5644006], 9);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '...' }).addTo(map);
 
-    // 2. Tambahkan Peta Dasar (Base Layer)
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
+        const citiesData = @json($cities ?? []);
+        const cityColors = ['#22c55e', '#3b82f6', '#facc15', '#ef4444', '#8b5cf6'];
+        const geoJsonFiles = {
+            'Semarang': "{{ asset('geojson/Semarang.geojson') }}",
+            'Batang': "{{ asset('geojson/Batang.geojson') }}",
+            'Demak': "{{ asset('geojson/Demak.geojson') }}",
+            'Jepara': "{{ asset('geojson/Jepara.geojson') }}",
+            'Kendal': "{{ asset('geojson/Kendal.geojson') }}",
+        };
 
-    // 3. Siapkan Objek untuk Menyimpan Layer Overlay
-    var overlayLayers = {};
+        citiesData.forEach((city, index) => {
+            const geoJsonUrl = geoJsonFiles[city.name];
+            if (!geoJsonUrl) return;
 
-    // --- FUNGSI UNTUK MEMUAT DAN MENAMPILKAN SETIAP FILE GEOJSON ---
+            fetch(geoJsonUrl)
+                .then(res => res.json())
+                .then(data => {
+                    const layer = L.geoJSON(data, {
+                        style: { fillColor: cityColors[index % cityColors.length], weight: 2, color: 'white', fillOpacity: 0.7 }
+                    });
 
-    // Fungsi untuk memuat file GeoJSON, memberinya style, dan menambahkannya ke peta
-    function loadGeoJsonLayer(url, layerName, styleOptions) {
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                var geoJsonLayer = L.geoJSON(data, {
-                    style: styleOptions,
-                    onEachFeature: function (feature, layer) {
-                        // Menambahkan popup sederhana dari properti 'NAMOBJ' atau 'name'
-                        if (feature.properties) {
-                            let popupContent = '';
-                            if (feature.properties.WADMKK) {
-                                popupContent = `<strong>${layerName}:</strong> ${feature.properties.WADMKK}`;
-                            } else if (feature.properties.name) {
-                                popupContent = `<strong>${layerName}:</strong> ${feature.properties.name}`;
+                    // UBAH BAGIAN INI: Sekarang kita menyiarkan event, bukan memanggil fungsi langsung
+                    layer.on('click', () => {
+                        window.dispatchEvent(new CustomEvent('open-drawer', {
+                            detail: {
+                                city: city
                             }
-                            if (popupContent) {
-                                layer.bindPopup(popupContent);
-                            }
-                        }
-                    }
-                }).addTo(map); // Langsung tambahkan layer ke peta saat dimuat
+                        }));
+                    });
 
-                // Simpan layer ke objek overlayLayers agar bisa dikontrol
-                overlayLayers[layerName] = geoJsonLayer;
-
-                // Setelah semua layer dimuat, tambahkan kontrol layer
-                // (Ini akan dipanggil beberapa kali, tapi hanya yang terakhir yang akan dieksekusi)
-                updateLayerControl();
-            })
-            .catch(error => console.error(`Error memuat ${url}:`, error));
-    }
-
-    loadGeoJsonLayer(
-        "{{ asset('geojson/Semarang.geojson') }}",
-        "Kota Semarang",
-        { fillColor: '#22c55e', weight: 2, color: 'white', fillOpacity: 0.5 }
-    );
-
-    loadGeoJsonLayer(
-        "{{ asset('geojson/Batang.geojson') }}",
-        "Kota Batang",
-        { fillColor: '#3b82f6', weight: 1, color: 'white', fillOpacity: 0.6 }
-    );
-
-    loadGeoJsonLayer(
-        "{{ asset('geojson/Demak.geojson') }}",
-        "Kabupaten Demak",
-        { fillColor: '#facc15', weight: 2, color: 'white', dashArray: '5, 5', fillOpacity: 0.4 }
-    );
-
-    loadGeoJsonLayer(
-        "{{ asset('geojson/Jepara.geojson') }}",
-        "Kota Jepara",
-        { fillColor: '#ef4444', weight: 2, color: 'white', fillOpacity: 0.5 }
-    );
-
-    loadGeoJsonLayer(
-        "{{ asset('geojson/Kendal.geojson') }}",
-        "Kota Kendal",
-        { fillColor: '#8b5cf6', weight: 2, color: 'white', fillOpacity: 0.5 }
-    );
-
-
-    // 4. Tambahkan Kontrol Layer ke Peta
-    var layerControl;
-    function updateLayerControl() {
-        // Hapus kontrol lama jika ada, agar tidak duplikat
-        if (layerControl) {
-            map.removeControl(layerControl);
-        }
-        // Tambahkan kontrol baru dengan semua layer yang sudah dimuat
-        layerControl = L.control.layers(null, overlayLayers).addTo(map);
-    }
-
+                    layer.bindPopup(`<strong>${city.name}</strong><br>Klik untuk lihat detail data.`);
+                    layer.addTo(map);
+                });
+        });
+    });
 </script>
 @endpush

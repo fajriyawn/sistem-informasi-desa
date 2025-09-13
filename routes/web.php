@@ -1,11 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SocController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\IcmPlanController;
 use App\Http\Controllers\LayananController;      // Digunakan untuk semua fitur di /layanan
 use App\Http\Controllers\LaporanPublikController; // Digunakan untuk semua fitur di /laporan
-use App\Http\Controllers\SocController;
-use App\Http\Controllers\GalleryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,6 +64,10 @@ Route::controller(SocController::class)->group(function () {
     Route::post('/soc/download/{report}', 'processDownload')->name('soc.download.process');
 });
 
+Route::get('/icm-plan', [IcmPlanController::class, 'index'])->name('icm_plan.index');
+Route::get('/icm-plan/download/{icmPlan}', [IcmPlanController::class, 'download'])->name('icm_plan.download');
+Route::get('/icm-plan/download-form/{icmPlan}', [IcmPlanController::class, 'showDownloadForm'])->name('icm_plan.download.form');
+Route::post('/icm-plan/download/{icmPlan}', [IcmPlanController::class, 'processDownload'])->name('icm_plan.download.process');
 
 // == HALAMAN GALERI ==
 Route::get('/galeri', [GalleryController::class, 'index'])->name('gallery.index');

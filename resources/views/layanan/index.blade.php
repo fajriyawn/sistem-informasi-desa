@@ -17,7 +17,7 @@
         @endif
 
         {{-- Kartu Layanan --}}
-        <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
             {{-- Kartu untuk Pengajuan Rehabilitasi --}}
             <div class="bg-gray-50 border border-gray-200 rounded-lg shadow-lg p-8 flex flex-col">
                 <h3 class="text-2xl font-bold text-gray-800">Pengajuan Rehabilitasi Ekosistem</h3>
@@ -26,6 +26,8 @@
                     Ajukan Sekarang
                 </a>
             </div>
+
+            {{-- Kartu untuk Pendaftaran Pelatihan --}}
             <div class="bg-gray-50 border border-gray-200 rounded-lg shadow-lg p-8 flex flex-col">
                 <h3 class="text-2xl font-bold text-gray-800">Pendaftaran Pelatihan</h3>
                 <p class="mt-4 text-gray-600 flex-grow">Tingkatkan pengetahuan dan kapasitas kelompok Anda mengenai pengelolaan ekosistem pesisir melalui program pelatihan yang kami sediakan.</p>
@@ -33,7 +35,7 @@
                     Daftar Pelatihan
                 </a>
             </div>
-
+        </div>
         </div>
     </div>
 </div>
