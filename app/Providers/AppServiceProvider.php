@@ -1,10 +1,10 @@
 <?php
-
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Schema; // 1. Tambahkan ini
+use Illuminate\Support\Facades\Schema; 
 use App\Models\Setting;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,12 +22,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // 2. Bungkus semua logika dengan pengecekan ini
+        if ($this->app->isProduction()) {
+            URL::forceScheme('https');
+        }
+
         if (Schema::hasTable('settings')) {
-            // Ambil 1 baris data setting
             $setting = Setting::first();
 
-            // Jika tidak ada data sama sekali, hindari error dan gunakan nilai default
             if (!$setting) {
                 View::share('colorPrimary', '#0f3a2f');
                 View::share('colorSecondary', '#ffffff');

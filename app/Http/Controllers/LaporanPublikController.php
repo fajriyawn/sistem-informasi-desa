@@ -28,9 +28,6 @@ class LaporanPublikController extends Controller
         return view('laporan.create');
     }
 
-    /**
-     * Menyimpan laporan baru yang dikirim dari form.
-     */
     public function store(Request $request)
     {
         // 1. Validasi form
@@ -47,7 +44,7 @@ class LaporanPublikController extends Controller
             'g-recaptcha-response' => 'required|string',
         ]);
 
-        // 2. Validasi reCAPTCHA manual
+        // Validasi reCAPTCHA manual
         $recaptchaResponse = $validated['g-recaptcha-response'];
         $recaptchaSecret = config('services.recaptcha.secret_key') ?? config('services.recaptcha.secret');
         $recaptcha = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
@@ -62,16 +59,16 @@ class LaporanPublikController extends Controller
             ]);
         }
 
-        // 3. Proses file lampiran
+        
         $lampiranPath = null;
         if ($request->hasFile('lampiran')) {
             $lampiranPath = $request->file('lampiran')->store('lampiran_laporan', 'public');
         }
 
-        // 4. Generate kode tracking unik
+        //  Generate kode tracking unik
         $kodeTracking = strtoupper(Str::random(10));
 
-        // 5. Simpan ke database
+        // Simpan ke database
         $laporan = new Service();
         $laporan->name = $validated['nama_lengkap'];
         $laporan->phone = $validated['nomor_telepon'];
