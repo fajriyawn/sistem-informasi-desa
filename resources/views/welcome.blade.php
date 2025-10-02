@@ -38,7 +38,7 @@
 {{-- 2. LOKASI SECTION --}}
 <section class="py-16 sm:py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Lokasi</h2>
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Daerah Pesisir</h2>
         {{-- Container untuk Peta --}}
         <div class="w-full h-96 rounded-lg shadow-lg overflow-hidden border border-gray-200">
             <div id="map" class="w-full h-full"></div>
@@ -63,7 +63,7 @@
 {{-- Inisialisasi Alpine.js dengan memanggil fungsi socSection() --}}
 <section x-data="socSection()" @keydown.escape.window="isModalOpen = false" class="py-16 sm:py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">State of the Ocean Jawa Tengah</h2>
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">State of the Coast Jawa Tengah</h2>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {{-- Card-card ini sekarang hanya memanggil fungsi openModal --}}
@@ -111,8 +111,8 @@
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
         <h2 class="text-4xl font-bold">Integrated Coastal Management Plan</h2>
         <p class="mt-4 max-w-2xl mx-auto">Pengelolaan Pesisir Secara Terpadu</p>
-        <a href="#" class="inline-block mt-8 bg-white text-green-700 font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-gray-200 transition-colors">
-            Read More
+        <a href="{{ route('icm_plan.index') }}" class="inline-block mt-8 bg-white text-green-700 font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-gray-200 transition-colors">
+            Lihat ICM Plan
         </a>
     </div>
 </section>

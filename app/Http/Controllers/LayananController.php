@@ -36,7 +36,7 @@ class LayananController extends Controller
             'organization' => 'nullable|string|max:255',
             'location' => 'required|string|max:255',
             'description' => 'required|string',
-            'proposal_file' => 'nullable|file|mimes:pdf,doc,docx|max:5120', // maks 5MB
+            'proposal_file' => 'nullable|file|mimes:pdf,doc,docx|max:5120',
         ]);
 
         // Validasi Google reCAPTCHA v2

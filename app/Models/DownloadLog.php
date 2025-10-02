@@ -19,4 +19,9 @@ class DownloadLog extends Model
     {
         return $this->belongsTo(SocReport::class);
     }
+
+    public function downloadable()
+    {
+        return $this->morphTo();
+    }
 }

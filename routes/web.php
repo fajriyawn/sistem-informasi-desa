@@ -40,7 +40,8 @@ Route::controller(LayananController::class)->group(function () {
 Route::controller(LaporanPublikController::class)->group(function () {
     Route::get('/laporan', 'index')->name('laporan.index');
     Route::get('/laporan/buat', 'create')->name('laporan.create');
-    Route::post('/laporan/buat', 'store')->name('laporan.store');
+    Route::post('/laporan/buat', 'store')->name('laporan.store')
+        ->middleware('throttle:5,1');
 
     // Ini adalah route untuk menampilkan form pelacakan
     Route::get('/laporan/lacak', 'showTracker')->name('laporan.tracker.show');
@@ -67,7 +68,9 @@ Route::controller(SocController::class)->group(function () {
 Route::get('/icm-plan', [IcmPlanController::class, 'index'])->name('icm_plan.index');
 Route::get('/icm-plan/download/{icmPlan}', [IcmPlanController::class, 'download'])->name('icm_plan.download');
 Route::get('/icm-plan/download-form/{icmPlan}', [IcmPlanController::class, 'showDownloadForm'])->name('icm_plan.download.form');
-Route::post('/icm-plan/download/{icmPlan}', [IcmPlanController::class, 'processDownload'])->name('icm_plan.download.process');
+// Route::post('/icm-plan/download/{icmPlan}', [IcmPlanController::class, 'processDownload'])->name('icm_plan.download.process');
+Route::post('/icm-plan/process-download/{icmPlan}', [IcmPlanController::class, 'processDownload'])->name('icm_plan.download.process');
+Route::get('/icm-plan/download/{icmPlan}', [IcmPlanController::class, 'downloadFile'])->name('icm_plan.download.file')->middleware('can.download');
 
 // == HALAMAN GALERI ==
 Route::get('/galeri', [GalleryController::class, 'index'])->name('gallery.index');

@@ -47,10 +47,23 @@ class IcmPlanController extends Controller
             'email' => 'required|email|max:255',
         ]);
 
-        // Logika create sekarang menggunakan relasi polimorfik
         $icmPlan->downloadLogs()->create($validated);
 
-        // Panggil method download yang sudah ada
-        return $this->download($icmPlan);
+        // 1. Beri izin download di session
+        session(['can_download_file_' . $icmPlan->id => true]);
+
+        // 2. Arahkan ke route unduhan yang sebenarnya
+        return redirect()->route('icm_plan.download.file', $icmPlan);
+    }
+
+    public function downloadFile(IcmPlan $icmPlan)
+    {
+        if ($icmPlan->file_laporan && Storage::disk('public')->exists($icmPlan->file_laporan)) {
+            $filename = $icmPlan->original_filename ?? basename($icmPlan->file_laporan);
+            return Storage::disk('public')->download($icmPlan->file_laporan, $filename);
+        }
+
+        // Seharusnya tidak akan sampai sini jika file ada
+        return redirect()->route('icm_plan.index')->with('error', 'File tidak ditemukan.');
     }
 }
