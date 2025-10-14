@@ -94,13 +94,29 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row md:justify-between md:items-center">
 
             {{-- Logo-logo (Urutan pertama di mobile, kedua di desktop) --}}
-            <div class="flex items-center space-x-6 order-1 md:order-2 mb-6 md:mb-0">
-                <a href="#" class="hover:opacity-80 transition-opacity">
-                    <img src="{{ asset('images/logos/left-logo.png') }}" alt="Left Logo" class="h-8">
-                </a>
-                <a href="#" class="hover:opacity-80 transition-opacity">
-                    <img src="{{ asset('images/logos/right-logo.png') }}" alt="Right Logo" class="h-8">
-                </a>
+            <div class="flex flex-col items-center space-x-6 order-1 md:order-2 mb-6 md:mb-0 md:flex-row gap-4">
+                <div class="flex bg-white rounded-lg p-2 gap-2">
+                    <a href="#" class="hover:opacity-80 transition-opacity">
+                        <img src="{{ asset('images/logos/Norway_Logo_Positive_CMYK.png') }}" alt="Left Logo" class="h-8">
+                    </a>
+                    <a href="#" class="hover:opacity-80 transition-opacity">
+                        <img src="{{ asset('images/logos/Logo_focus.png') }}" alt="Left Logo" class="h-8">
+                    </a>
+                </div>
+                <div class="flex bg-white rounded-lg p-2 gap-2">
+                    <a href="https://humanis.foundation/" class="hover:opacity-80 transition-opacity">
+                        <img src="{{ asset('images/logos/Humanis_with_Hivos_Logo_priority.png') }}" alt="Logo Humanis" class="h-8">
+                    </a>
+                    <a href="https://www.kiara.or.id/" class="hover:opacity-80 transition-opacity">
+                        <img src="{{ asset('images/logos/Logo_KIARA.png') }}" alt="Logo Kiara" class="h-8">
+                    </a>
+                    <a href="https://pkspl.ipb.ac.id/" class="hover:opacity-80 transition-opacity">
+                        <img src="{{ asset('images/logos/Logo_PKSPL-IPB.png') }}" alt="Logo PKSPL" class="h-8">
+                    </a>
+                    <a href="https://www.walhi.or.id/" class="hover:opacity-80 transition-opacity">
+                        <img src="{{ asset('images/logos/Logo_WALHI.png') }}" alt="Logo WALHI" class="h-8">
+                    </a>
+                </div>
             </div>
 
             {{-- Copyright (Urutan kedua di mobile, pertama di desktop) --}}

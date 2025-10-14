@@ -109,10 +109,10 @@
         <div class="absolute inset-0 bg-black/70"></div>
     </div>
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-        <h2 class="text-4xl font-bold">Integrated Coastal Management Plan</h2>
+        <h2 class="text-4xl font-bold">Integrated Coastal Management</h2>
         <p class="mt-4 max-w-2xl mx-auto">Pengelolaan Pesisir Secara Terpadu</p>
         <a href="{{ route('icm_plan.index') }}" class="inline-block mt-8 bg-white text-green-700 font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-gray-200 transition-colors">
-            Lihat ICM Plan
+            Lihat ICM Master Plan
         </a>
     </div>
 </section>
