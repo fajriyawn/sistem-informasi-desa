@@ -13,6 +13,13 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use App\Mail\StatusUpdateMail;
+use Illuminate\Support\Facades\Mail;
+use Filament\Notifications\Notification;
 
 class ProposalResource extends Resource
 {
@@ -66,8 +73,45 @@ class ProposalResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                ActionGroup::make([
+                    Action::make('updateStatus')
+                        ->label('Update Status & Notifikasi')
+                        ->icon('heroicon-o-paper-airplane')
+                        ->form([
+                            Select::make('status')
+                                ->label('Status Baru')
+                                ->options([
+                                    'Sedang Diproses' => 'Sedang Diproses',
+                                    'Disetujui' => 'Disetujui',
+                                    'Ditolak' => 'Ditolak',
+                                ])
+                                ->required(),
+                            Textarea::make('note')
+                                ->label('Catatan untuk Pengguna (Opsional)')
+                                ->rows(3),
+                        ])
+                        ->action(function (Proposal $record, array $data) {
+                            // Update status record
+                            $record->status = $data['status'];
+                            $record->save();
+                            
+                            // Kirim email notifikasi
+                            Mail::to($record->email)->send(new StatusUpdateMail(
+                                $record->name,
+                                $data['status'],
+                                $data['note'] ?? '',
+                                'Proposal Rehabilitasi'
+                            ));
+                            
+                            // Tampilkan notifikasi sukses
+                            Notification::make()
+                                ->success()
+                                ->title('Status berhasil diperbarui dan notifikasi telah dikirim.')
+                                ->send();
+                        }),
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

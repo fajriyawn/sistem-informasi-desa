@@ -10,6 +10,13 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use App\Mail\StatusUpdateMail;
+use Illuminate\Support\Facades\Mail;
+use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -61,8 +68,45 @@ class TrainingRegistrationResource extends Resource
             ])
 
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                ActionGroup::make([
+                    Action::make('updateStatus')
+                        ->label('Update Status & Notifikasi')
+                        ->icon('heroicon-o-paper-airplane')
+                        ->form([
+                            Select::make('status')
+                                ->label('Status Baru')
+                                ->options([
+                                    'Telah Dihubungi' => 'Telah Dihubungi',
+                                    'Jadwal Disetujui' => 'Jadwal Disetujui',
+                                    'Selesai' => 'Selesai',
+                                ])
+                                ->required(),
+                            Textarea::make('note')
+                                ->label('Catatan untuk Pengguna (Opsional)')
+                                ->rows(3),
+                        ])
+                        ->action(function (TrainingRegistration $record, array $data) {
+                            // Update status record
+                            $record->status = $data['status'];
+                            $record->save();
+                            
+                            // Kirim email notifikasi
+                            Mail::to($record->email)->send(new StatusUpdateMail(
+                                $record->name,
+                                $data['status'],
+                                $data['note'] ?? '',
+                                'Pendaftaran Pelatihan'
+                            ));
+                            
+                            // Tampilkan notifikasi sukses
+                            Notification::make()
+                                ->success()
+                                ->title('Status berhasil diperbarui dan notifikasi telah dikirim.')
+                                ->send();
+                        }),
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                ])
             ])
             ->defaultSort('created_at', 'desc');
     }
