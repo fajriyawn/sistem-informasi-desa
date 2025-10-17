@@ -18,6 +18,11 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Tables\Filters\SelectFilter;
 use App\Filament\Resources\ServiceResource\Pages;
 use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ActionGroup;
+use App\Mail\StatusUpdateMail;
+use Illuminate\Support\Facades\Mail;
+use Filament\Notifications\Notification;
 use Dom\Text;
 use FormsComponents\Filament\Forms\Components\MapPicker;
 
@@ -120,8 +125,45 @@ class ServiceResource extends Resource
             ])
             // ->filtersLayout(FiltersLayout::AboveContent)
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\ViewAction::make(),
+                ActionGroup::make([
+                    Action::make('updateStatus')
+                        ->label('Update Status & Notifikasi')
+                        ->icon('heroicon-o-paper-airplane')
+                        ->form([
+                            Select::make('status')
+                                ->label('Status Baru')
+                                ->options([
+                                    'Sedang Diproses' => 'Sedang Diproses',
+                                    'Terselesaikan' => 'Terselesaikan',
+                                    'Ditolak' => 'Ditolak',
+                                ])
+                                ->required(),
+                            Textarea::make('note')
+                                ->label('Catatan untuk Pengguna (Opsional)')
+                                ->rows(3),
+                        ])
+                        ->action(function (Service $record, array $data) {
+                            // Update status record
+                            $record->status = $data['status'];
+                            $record->save();
+                            
+                            // Kirim email notifikasi
+                            Mail::to($record->email)->send(new StatusUpdateMail(
+                                $record->name,
+                                $data['status'],
+                                $data['note'] ?? '',
+                                'Laporan'
+                            ));
+                            
+                            // Tampilkan notifikasi sukses
+                            Notification::make()
+                                ->success()
+                                ->title('Status berhasil diperbarui dan notifikasi telah dikirim.')
+                                ->send();
+                        }),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\ViewAction::make(),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -22,6 +22,7 @@ class User extends Authenticatable implements FilamentUser
     protected $fillable = [
         'name',
         'email',
+        'username',
         'password',
         'username',
     ];
@@ -51,6 +52,10 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return str_ends_with($this->email, '@simpandu.test');
+        // Izinkan semua user yang terautentikasi untuk mengakses panel
+        return true;
+        
+        // Atau jika ingin pembatasan berdasarkan email domain:
+        // return str_ends_with($this->email, '@simpandu.test') || str_ends_with($this->email, '@admin.com');
     }
 }

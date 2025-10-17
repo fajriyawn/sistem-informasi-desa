@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIMPANDU - Sistem Informasi Pengelolaan Pesisir Terpadu</title>
+    <title>SIMPANDU - Sistem Informasi dan Monitoring Pengelolaan Pesisir Terpadu</title>
     <link rel="icon" href="{{ asset('simpandu.png') }}" type="image/png"/>
 
     {{-- Memuat Tailwind CSS --}}
