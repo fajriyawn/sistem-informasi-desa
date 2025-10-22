@@ -37,6 +37,7 @@ class TrainingRegistrationResource extends Resource
                 Forms\Components\TextInput::make('email')->label('Email')->disabled(),
                 Forms\Components\TextInput::make('phone')->label('Telepon')->disabled(),
                 Forms\Components\TextInput::make('training_topic')->label('Topik Pelatihan')->disabled(),
+                Forms\Components\TextInput::make('participant_count')->label('Jumlah Peserta')->disabled(),
                 Forms\Components\Textarea::make('notes')->label('Catatan')->columnSpanFull()->disabled(),
                 Forms\Components\Select::make('status')
                     ->options([
@@ -56,6 +57,7 @@ class TrainingRegistrationResource extends Resource
                 Tables\Columns\TextColumn::make('organization_name')->label('Instansi')->searchable(),
                 Tables\Columns\TextColumn::make('name')->label('Penanggung Jawab')->searchable(),
                 Tables\Columns\TextColumn::make('training_topic')->label('Topik Pelatihan'),
+                Tables\Columns\TextColumn::make('participant_count')->label('Jumlah Peserta'),
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
@@ -89,7 +91,7 @@ class TrainingRegistrationResource extends Resource
                             // Update status record
                             $record->status = $data['status'];
                             $record->save();
-                            
+
                             // Kirim email notifikasi
                             Mail::to($record->email)->send(new StatusUpdateMail(
                                 $record->name,
@@ -97,7 +99,7 @@ class TrainingRegistrationResource extends Resource
                                 $data['note'] ?? '',
                                 'Pendaftaran Pelatihan'
                             ));
-                            
+
                             // Tampilkan notifikasi sukses
                             Notification::make()
                                 ->success()
@@ -116,6 +118,11 @@ class TrainingRegistrationResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function canCreate(): bool
+    {
+        return false;
     }
 
     public static function getPages(): array
