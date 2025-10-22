@@ -38,6 +38,7 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 Pages\Dashboard::class,
             ])
+            ->favicon(asset('simpandu.png'))
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
@@ -58,7 +59,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->brandName('SIMPANDU');
             // Hapus atau sesuaikan NavigationGroups jika tidak digunakan
-            // ->navigationGroups([...]) 
+            // ->navigationGroups([...])
             // ...existing code...
     }
 }

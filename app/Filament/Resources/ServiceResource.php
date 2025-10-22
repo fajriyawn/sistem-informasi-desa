@@ -34,6 +34,11 @@ class ServiceResource extends Resource
     protected static ?string $navigationLabel = "Pelaporan";
     protected static ?string $pluralLabel = 'Pelaporan';
 
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -70,11 +75,7 @@ class ServiceResource extends Resource
                         ]),
                         TextInput::make('address_detail')->label('Detail Alamat Kejadian'),
                         Textarea::make('content')->label('Isi Laporan'),
-                        FileUpload::make('attachment')
-                            ->label('Lampiran')
-                            ->maxSize(10240) 
-                            ->acceptedFileTypes(['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png', 'zip'])
-                            ->helperText('Maksimal 10 MB. Format yang diterima: PDF, DOC, DOCX, JPG, PNG, ZIP'),
+                        FileUpload::make('attachment')->label('Lampiran'),
                     ]),
             ]);
     }
@@ -176,7 +177,7 @@ class ServiceResource extends Resource
     public static function getPages(): array {
         return [
             'index' => Pages\ListServices::route('/'),
-            'create' => Pages\CreateService::route('/create'),
+            // 'create' => Pages\CreateService::route('/create'),
             'edit' => Pages\EditService::route('/{record}/edit'),
         ];
     }
