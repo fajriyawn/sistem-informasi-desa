@@ -87,7 +87,7 @@ class ProposalResource extends Resource
                                 ])
                                 ->required(),
                             Textarea::make('note')
-                                ->label('Catatan untuk Pengguna (Opsional)')
+                                ->label('Catatan untuk Pengguna')
                                 ->rows(3),
                         ])
                         ->action(function (Proposal $record, array $data) {
