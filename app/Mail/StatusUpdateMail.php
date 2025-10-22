@@ -5,6 +5,7 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -17,16 +18,18 @@ class StatusUpdateMail extends Mailable
     public $statusBaru;
     public $catatanAdmin;
     public $namaModul;
+    public ?string $attachmentPath = null;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($namaPengguna, $statusBaru, $catatanAdmin, $namaModul)
+    public function __construct($namaPengguna, $statusBaru, $catatanAdmin, $namaModul, ?string $attachmentPath = null)
     {
         $this->namaPengguna = $namaPengguna;
         $this->statusBaru = $statusBaru;
         $this->catatanAdmin = $catatanAdmin;
         $this->namaModul = $namaModul;
+        $this->attachmentPath = $attachmentPath;
     }
 
     /**
@@ -56,6 +59,12 @@ class StatusUpdateMail extends Mailable
      */
     public function attachments(): array
     {
-        return [];
+        $attachments = [];
+        
+        if ($this->attachmentPath !== null) {
+            $attachments[] = Attachment::fromStorageDisk('public', $this->attachmentPath);
+        }
+        
+        return $attachments;
     }
 }

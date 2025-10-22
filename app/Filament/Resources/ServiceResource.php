@@ -70,7 +70,11 @@ class ServiceResource extends Resource
                         ]),
                         TextInput::make('address_detail')->label('Detail Alamat Kejadian'),
                         Textarea::make('content')->label('Isi Laporan'),
-                        FileUpload::make('attachment')->label('Lampiran'),
+                        FileUpload::make('attachment')
+                            ->label('Lampiran')
+                            ->maxSize(10240) 
+                            ->acceptedFileTypes(['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png', 'zip'])
+                            ->helperText('Maksimal 10 MB. Format yang diterima: PDF, DOC, DOCX, JPG, PNG, ZIP'),
                     ]),
             ]);
     }
@@ -126,8 +130,15 @@ class ServiceResource extends Resource
                                 ])
                                 ->required(),
                             Textarea::make('note')
-                                ->label('Catatan untuk Pengguna (Opsional)')
+                                ->label('Catatan untuk Pengguna')
                                 ->rows(3),
+                            FileUpload::make('lampiran_tindak_lanjut')
+                                ->label('Lampiran Tindak Lanjut (Opsional)')
+                                ->disk('public')
+                                ->directory('tindak_lanjut_laporan')
+                                ->acceptedFileTypes(['image/jpeg', 'image/jpg', 'image/png', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'])
+                                ->maxSize(5120)
+                                ->helperText('Maksimal 5 MB. Format: JPG, PNG, PDF, DOC, DOCX'),
                         ])
                         ->action(function (Service $record, array $data) {
                             // Update status record
@@ -139,7 +150,8 @@ class ServiceResource extends Resource
                                 $record->name,
                                 $data['status'],
                                 $data['note'] ?? '',
-                                'Laporan'
+                                'Laporan',
+                                $data['lampiran_tindak_lanjut'] ?? null
                             ));
                             
                             // Tampilkan notifikasi sukses
