@@ -40,14 +40,14 @@
                     </div>
                     <div>
                         <label for="content" class="block text-sm font-medium text-gray-700">Isi Laporan</label>
-                        <textarea name="content" id="content" rows="6" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">{{ old('content') }}</textarea>
+                        <textarea name="content" id="content" rows="6" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="Jelaskan secara rinci laporan atau masukan Anda di sini. Minimal 50 karakter."></textarea>
                         @error('content') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                     </div>
 
                     {{-- --- INPUT UNTUK UPLOAD FILE --- --}}
                     <div>
                         <label for="attachment" class="block text-sm font-medium text-gray-700">Lampiran</label>
-                        <input type="file" name="attachment" id="attachment" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                        <input type="file" name="attachment" id="attachment" required class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
                         @error('attachment') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                     </div>
                     {{-- ----------------------------- --}}

@@ -26,6 +26,31 @@ class SocController extends Controller
         return view('soc.index', compact('cities'));
     }
 
+    public function show(Request $request, City $city)
+    {
+        // Ambil semua laporan SOC milik kota ini, urutkan tahun terbaru
+        // Kita butuh ini untuk membuat navigasi daftar tahun di bagian atas
+        $availableReports = $city->socReports()->orderBy('tahun', 'desc')->get();
+
+        // Tentukan laporan mana yang mau ditampilkan
+        // Jika ada parameter ?year=2022 di URL, cari tahun itu
+        // Jika tidak ada, ambil yang paling baru (first)
+        $selectedYear = $request->query('year');
+
+        if ($selectedYear) {
+            $report = $availableReports->where('tahun', $selectedYear)->first();
+        } else {
+            $report = $availableReports->first();
+        }
+
+        // Jika tidak ada laporan sama sekali untuk kota ini
+        if (!$report) {
+            return redirect()->route('soc.index')->with('error', 'Belum ada laporan untuk kota ini.');
+        }
+
+        return view('soc.show', compact('city', 'availableReports', 'report'));
+    }
+
     // Method untuk menampilkan halaman form
     public function showDownloadForm(SocReport $report)
     {
