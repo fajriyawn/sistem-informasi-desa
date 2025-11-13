@@ -50,7 +50,7 @@
 <section class="py-16 sm:py-24 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
         <div>
-            <img src="{{ asset('images/logos/SIMPANDU.png') }}" alt="Selayang Pandang" class="rounded-lg shadow-lg w-full">
+            <img src="{{ asset('images/selayang-pandang.jpg') }}" alt="Selayang Pandang" class="rounded-lg shadow-lg w-full">
         </div>
         <div>
             <h2 class="text-3xl font-bold text-gray-800">Selayang Pandang SIMPANDU</h2>

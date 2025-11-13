@@ -99,19 +99,19 @@
                         <label for="isi_laporan" class="block text-sm font-medium text-gray-700">Isi Laporan</label>
                         <textarea name="isi_laporan" id="isi_laporan" rows="6" required
                                   class="mt-1 input-style @error('isi_laporan') input-error @enderror"
-                                  placeholder="Jelaskan secara rinci laporan atau masukan Anda di sini.">{{ old('isi_laporan') }}</textarea>
+                                  placeholder="Jelaskan secara rinci laporan atau masukan Anda di sini. Minimal 50 karakter.">{{ old('isi_laporan') }}</textarea>
                         @error('isi_laporan') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
 
                     {{-- Field Lampiran --}}
                     <div>
-                        <label for="lampiran" class="block text-sm font-medium text-gray-700">Lampiran (Opsional)</label>
-                        <input type="file" name="lampiran" id="lampiran"
+                        <label for="lampiran" class="block text-sm font-medium text-gray-700">Lampiran</label>
+                        <input type="file" name="lampiran" id="lampiran" required
                                class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
                         @error('lampiran') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
-
+                <br>
                 {{-- Tombol Kirim --}}
                 <div class="mb-4">
                     <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>

@@ -39,8 +39,8 @@ class LaporanPublikController extends Controller
             'tipe_laporan' => 'required|string|max:50',
             'kabupaten_kota_lokasi' => 'required|string|max:50',
             'detail_alamat' => 'required|string|max:255',
-            'isi_laporan' => 'required|string',
-            'lampiran' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'isi_laporan' => 'required|string|min: 50',
+            'lampiran' => 'required|file|mimes:jpg,jpeg,png,pdf|max:4096',
             'g-recaptcha-response' => 'required|string',
         ]);
 
@@ -59,7 +59,7 @@ class LaporanPublikController extends Controller
             ]);
         }
 
-        
+
         $lampiranPath = null;
         if ($request->hasFile('lampiran')) {
             $lampiranPath = $request->file('lampiran')->store('lampiran_laporan', 'public');
@@ -105,7 +105,7 @@ class LaporanPublikController extends Controller
     {
         $request->validate(['tracking_code' => 'required|string|max:20']);
 
-        
+
         $laporan = Service::where('tracking_code', $request->tracking_code)->first();
 
         return view('laporan.tracker', compact('laporan'))->withInput($request->all());
