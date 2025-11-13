@@ -1,81 +1,42 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="bg-gray-50 py-24 sm:py-32">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="bg-gray-50 py-24 sm:py-32 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
             <h1 class="text-4xl font-extrabold text-gray-800 tracking-tight">Integrated Coastal Management (ICM) Plan</h1>
             <p class="mt-2 text-lg text-gray-600">Dokumen perencanaan pengelolaan pesisir terpadu per wilayah.</p>
         </div>
 
-        <div class="space-y-4">
+        {{-- Grid Daftar Kota --}}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
             @forelse ($cities as $city)
-                <div x-data="{ open: false }" class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
-                    <button @click="open = !open" class="w-full flex justify-between items-center p-5 text-left">
-                        <span class="text-xl font-bold text-gray-800">{{ $city->name }}</span>
-                        <svg :class="{'rotate-180': open}" class="w-6 h-6 text-gray-500 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </button>
-
-                    <div x-show="open" x-transition class="p-5 border-t border-gray-200 space-y-3">
-                        @foreach ($city->icmPlans as $plan)
-                            <div x-data="{ openYear: false }" class="border border-gray-200 rounded-md">
-                                <button @click="openYear = !openYear" class="w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 text-left">
-                                    <span class="font-semibold text-gray-700">Tahun {{ $plan->tahun }}</span>
-                                    <svg :class="{'rotate-180': openYear}" class="w-5 h-5 text-gray-500 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                                </button>
-
-                                <div x-show="openYear" x-transition class="p-4 space-y-6">
-                                    <h4 class="text-lg font-bold">{{ $plan->title }}</h4>
-                                    <div class="prose max-w-none text-gray-600">
-                                        {!! $plan->description !!}
-                                    </div>
-
-                                    {{-- TAMBAHKAN BLOK INI UNTUK MENAMPILKAN SCREENSHOT --}}
-                                    @if ($plan->ss_lingkungan)
-                                    <div>
-                                        <h5 class="font-semibold mb-2">Status Lingkungan Pesisir</h5>
-                                        <img src="{{ Storage::url($plan->ss_lingkungan) }}" class="w-full rounded-md shadow-md">
-                                    </div>
-                                    @endif
-
-                                    @if ($plan->ss_tata_kelola)
-                                    <div>
-                                        <h5 class="font-semibold mb-2">Diagram Radar Tata Kelola</h5>
-                                        <img src="{{ Storage::url($plan->ss_tata_kelola) }}" class="w-full rounded-md shadow-md">
-                                    </div>
-                                    @endif
-
-                                    @if ($plan->ss_pembangunan)
-                                    <div>
-                                        <h5 class="font-semibold mb-2">Diagram Radar Pembangunan Berkelanjutan</h5>
-                                        <img src="{{ Storage::url($plan->ss_pembangunan) }}" class="w-full rounded-md shadow-md">
-                                    </div>
-                                    @endif
-
-                                    @if ($plan->ss_matriks_icm)
-                                    <div>
-                                        <h5 class="font-semibold mb-2">Matriks Penilaian Capaian Indikator ICM</h5>
-                                        <img src="{{ Storage::url($plan->ss_matriks_icm) }}" class="w-full rounded-md shadow-md">
-                                    </div>
-                                    @endif
-                                    {{-- BATAS BLOK BARU --}}
-
-                                    @if ($plan->file_laporan)
-                                        <div class="pt-4 border-t border-gray-200 text-right">
-                                            <a href="{{ route('icm_plan.download.form', $plan) }}"
-                                            class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 active:bg-green-800 focus:outline-none focus:border-green-800 focus:ring ring-green-300 disabled:opacity-25 transition ease-in-out duration-150">
-                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                                                Download
-                                            </a>
-                                        </div>
-                                    @endif
-                                </div>
+                <a href="{{ route('icm_plan.show', $city) }}" class="group block bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center justify-center w-12 h-12 bg-green-50 text-green-600 rounded-lg group-hover:bg-green-600 group-hover:text-white transition-colors">
+                                {{-- Ikon Dokumen --}}
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                             </div>
-                        @endforeach
+                            {{-- Badge jumlah rencana --}}
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                {{ $city->icmPlans->count() }} Dokumen
+                            </span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 group-hover:text-green-600 transition-colors">{{ $city->name }}</h3>
+                        <p class="mt-2 text-sm text-gray-500">
+                            Akses dokumen rencana strategis dan data pendukung pengelolaan pesisir.
+                        </p>
                     </div>
-                </div>
+                    <div class="bg-gray-50 px-6 py-3 border-t border-gray-100 flex justify-between items-center">
+                        <span class="text-xs text-gray-500 font-medium">Terbaru: {{ $city->icmPlans->first()->tahun ?? '-' }}</span>
+                        <span class="text-sm text-green-600 font-semibold group-hover:translate-x-1 transition-transform">Lihat Rencana &rarr;</span>
+                    </div>
+                </a>
             @empty
-                <p class="text-center text-gray-500">Belum ada data ICM Plan yang tersedia.</p>
+                <div class="col-span-full text-center py-12 bg-white rounded-xl border border-dashed border-gray-300">
+                    <p class="text-gray-500">Belum ada data ICM Plan yang tersedia.</p>
+                </div>
             @endforelse
         </div>
     </div>
