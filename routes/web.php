@@ -61,7 +61,7 @@ Route::get('/laporan/sukses', function () {
 // == HALAMAN STATE OF THE COAST (SOC) ==
 Route::controller(SocController::class)->group(function () {
     Route::get('/soc', 'index')->name('soc.index');
-    Route::get('/soc/download-form/{report}', 'showDownloadForm')->name('soc.download.form');
+    Route::get('/soc/kota/{city}', 'show')->name('soc.show');
     Route::post('/soc/download/{report}', 'processDownload')->name('soc.download.process');
 });
 
