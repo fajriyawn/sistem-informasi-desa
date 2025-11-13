@@ -65,12 +65,16 @@ Route::controller(SocController::class)->group(function () {
     Route::post('/soc/download/{report}', 'processDownload')->name('soc.download.process');
 });
 
-Route::get('/icm-plan', [IcmPlanController::class, 'index'])->name('icm_plan.index');
-Route::get('/icm-plan/download/{icmPlan}', [IcmPlanController::class, 'download'])->name('icm_plan.download');
-Route::get('/icm-plan/download-form/{icmPlan}', [IcmPlanController::class, 'showDownloadForm'])->name('icm_plan.download.form');
-// Route::post('/icm-plan/download/{icmPlan}', [IcmPlanController::class, 'processDownload'])->name('icm_plan.download.process');
-Route::post('/icm-plan/process-download/{icmPlan}', [IcmPlanController::class, 'processDownload'])->name('icm_plan.download.process');
-Route::get('/icm-plan/download/{icmPlan}', [IcmPlanController::class, 'downloadFile'])->name('icm_plan.download.file')->middleware('can.download');
+Route::controller(App\Http\Controllers\IcmPlanController::class)->group(function () {
+    Route::get('/icm-plan', 'index')->name('icm_plan.index');
+
+    // Route Baru: Detail ICM Plan per kota
+    Route::get('/icm-plan/kota/{city}', 'show')->name('icm_plan.show');
+
+    // Route download (tetap sama)
+    Route::get('/icm-plan/download-form/{icmPlan}', 'showDownloadForm')->name('icm_plan.download.form');
+    Route::post('/icm-plan/download/{icmPlan}', 'processDownload')->name('icm_plan.download.process');
+});
 
 // == HALAMAN GALERI ==
 Route::get('/galeri', [GalleryController::class, 'index'])->name('gallery.index');

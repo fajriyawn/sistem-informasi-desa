@@ -33,6 +33,27 @@ class IcmPlanController extends Controller
         return back()->with('error', 'File tidak ditemukan.');
     }
 
+    public function show(Request $request, City $city)
+    {
+        // Ambil semua history ICM Plan milik kota ini
+        $availablePlans = $city->icmPlans()->orderBy('tahun', 'desc')->get();
+
+        // Logika filter tahun (sama seperti SOC)
+        $selectedYear = $request->query('year');
+
+        if ($selectedYear) {
+            $plan = $availablePlans->where('tahun', $selectedYear)->first();
+        } else {
+            $plan = $availablePlans->first();
+        }
+
+        if (!$plan) {
+            return redirect()->route('icm_plan.index')->with('error', 'Belum ada dokumen rencana untuk kota ini.');
+        }
+
+        return view('icm_plan.show', compact('city', 'availablePlans', 'plan'));
+    }
+
     public function showDownloadForm(IcmPlan $icmPlan)
     {
         // Kita bisa buat satu view form generik jika mau, tapi untuk sekarang kita pisah
