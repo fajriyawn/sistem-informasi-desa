@@ -65,6 +65,9 @@ Route::controller(SocController::class)->group(function () {
     Route::post('/soc/download/{report}', 'processDownload')->name('soc.download.process');
 });
 
+// == ULASAN/REVIEW ==
+Route::post('/review', [App\Http\Controllers\ReviewController::class, 'store'])->name('review.store');
+
 Route::get('/icm-plan', [IcmPlanController::class, 'index'])->name('icm_plan.index');
 Route::get('/icm-plan/download/{icmPlan}', [IcmPlanController::class, 'download'])->name('icm_plan.download');
 Route::get('/icm-plan/download-form/{icmPlan}', [IcmPlanController::class, 'showDownloadForm'])->name('icm_plan.download.form');

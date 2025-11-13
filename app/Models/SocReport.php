@@ -18,6 +18,7 @@ class SocReport extends Model
         'ss_matriks_icm',
         'file_laporan',
         'original_filename',
+        'reviews_enabled',
     ];
 
     public function city()
@@ -32,5 +33,16 @@ class SocReport extends Model
     public function downloadLogs()
     {
         return $this->morphMany(DownloadLog::class, 'downloadable');
+    }
+
+    /**
+     * Definisikan relasi one-to-many ke Review.
+     * Satu laporan bisa memiliki banyak ulasan.
+     */
+    public function reviews()
+    {
+        return $this->morphMany(Review::class, 'reviewable')
+                    ->where('is_published', true)
+                    ->orderBy('created_at', 'desc');
     }
 }
