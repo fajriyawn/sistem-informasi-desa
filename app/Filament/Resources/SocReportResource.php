@@ -101,6 +101,11 @@ class SocReportResource extends Resource
                         }
                     }),
                     Forms\Components\Hidden::make('original_filename'),
+
+                Forms\Components\Toggle::make('reviews_enabled')
+                    ->label('Aktifkan Ulasan Publik')
+                    ->columnSpanFull()
+                    ->default(true),
             ]);
     }
 

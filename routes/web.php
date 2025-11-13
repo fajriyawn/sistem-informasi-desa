@@ -65,6 +65,15 @@ Route::controller(SocController::class)->group(function () {
     Route::post('/soc/download/{report}', 'processDownload')->name('soc.download.process');
 });
 
+// == ULASAN/REVIEW ==
+Route::post('/review', [App\Http\Controllers\ReviewController::class, 'store'])->name('review.store');
+
+Route::get('/icm-plan', [IcmPlanController::class, 'index'])->name('icm_plan.index');
+Route::get('/icm-plan/download/{icmPlan}', [IcmPlanController::class, 'download'])->name('icm_plan.download');
+Route::get('/icm-plan/download-form/{icmPlan}', [IcmPlanController::class, 'showDownloadForm'])->name('icm_plan.download.form');
+// Route::post('/icm-plan/download/{icmPlan}', [IcmPlanController::class, 'processDownload'])->name('icm_plan.download.process');
+Route::post('/icm-plan/process-download/{icmPlan}', [IcmPlanController::class, 'processDownload'])->name('icm_plan.download.process');
+Route::get('/icm-plan/download/{icmPlan}', [IcmPlanController::class, 'downloadFile'])->name('icm_plan.download.file')->middleware('can.download');
 Route::controller(App\Http\Controllers\IcmPlanController::class)->group(function () {
     Route::get('/icm-plan', 'index')->name('icm_plan.index');
 

@@ -40,10 +40,10 @@ class="bg-gray-50 py-24 sm:py-32 min-h-screen">
         </div>
 
         {{-- LAYOUT UTAMA --}}
-        <div class="lg:grid lg:grid-cols-3 lg:gap-10">
+        <div class="lg:grid lg:grid-cols-3 lg:gap-10 lg:items-start">
 
             {{-- KOLOM KIRI: Preview File (Sekarang Menyamping) --}}
-            <div class="lg:col-span-2 space-y-6">
+            <div class="lg:col-span-2 space-y-6 lg:sticky lg:top-5">
 
                 {{-- Kartu Informasi Ringkasan --}}
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
@@ -125,8 +125,24 @@ class="bg-gray-50 py-24 sm:py-32 min-h-screen">
             </div>
 
             {{-- KOLOM KANAN: Form Download (Sticky) --}}
-            <div class="lg:col-span-1 mt-8 lg:mt-0">
-                <div class="sticky top-28">
+            <div class="lg:col-span-1 mt-8 lg:mt-0" x-data="{ tab: 'unduh' }">
+                
+                {{-- Navigasi Tab --}}
+                <div class="flex space-x-1 rounded-lg bg-gray-200 p-1 mb-4">
+                    <button @click="tab = 'unduh'" 
+                            :class="tab === 'unduh' ? 'bg-white shadow text-gray-900' : 'text-gray-600 hover:bg-gray-100'"
+                            class="flex-1 px-3 py-2 text-sm font-medium rounded-md transition-colors">
+                        Unduh Dokumen
+                    </button>
+                    <button @click="tab = 'ulasan'" 
+                            :class="tab === 'ulasan' ? 'bg-white shadow text-gray-900' : 'text-gray-600 hover:bg-gray-100'"
+                            class="flex-1 px-3 py-2 text-sm font-medium rounded-md transition-colors">
+                        Ulasan Publik
+                    </button>
+                </div>
+
+                {{-- Tab Content: Unduh Dokumen --}}
+                <div x-show="tab === 'unduh'" class="sticky top-28">
                     <div class="bg-white p-6 rounded-xl shadow-lg border border-green-100">
                         <div class="text-center mb-6">
                             <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-100 text-green-600 mb-3">
@@ -165,6 +181,98 @@ class="bg-gray-50 py-24 sm:py-32 min-h-screen">
                             </div>
                         @endif
                     </div>
+                </div>
+
+                {{-- Tab Content: Ulasan Publik --}}
+                <div x-show="tab === 'ulasan'" class="sticky top-28 space-y-6">
+                    @if($report->reviews_enabled)
+                        {{-- Card 1: Daftar Ulasan --}}
+                        <div class="bg-white p-6 rounded-xl shadow-lg border border-green-100">
+                            <div class="text-center mb-6">
+                                <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 text-blue-600 mb-3">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.001 8.001 0 01-7.7-6M3 12c0-4.418 3.582-8 8-8s8 3.582 8 8z"></path></svg>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-900">Ulasan Publik</h3>
+                                <p class="text-sm text-gray-500">Masukan dari pembaca laporan</p>
+                            </div>
+
+                            {{-- Daftar Ulasan --}}
+                            <div class="space-y-4">
+                                @forelse($report->reviews as $review)
+                                    <div class="border-b py-4 last:border-b-0">
+                                        <div class="flex justify-between items-start mb-2">
+                                            <strong>{{ $review->name ?? 'Anonym' }}</strong>
+                                            <span class="text-xs text-gray-500">{{ $review->created_at->diffForHumans() }}</span>
+                                        </div>
+                                        <p class="text-gray-700 mt-1">{{ $review->content }}</p>
+                                    </div>
+                                @empty
+                                    <div class="text-center py-8">
+                                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 text-gray-400 mb-4">
+                                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path></svg>
+                                        </div>
+                                        <p class="text-gray-500">Belum ada ulasan. Jadilah yang pertama memberikan masukan!</p>
+                                    </div>
+                                @endforelse
+                            </div>
+                        </div>
+
+                        {{-- Card 2: Form Beri Ulasan --}}
+                        <div class="bg-white p-6 rounded-xl shadow-lg border border-green-100">
+                            <div class="text-center mb-6">
+                                <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-100 text-green-600 mb-3">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-900">Beri Ulasan Anda</h3>
+                                <p class="text-sm text-gray-500">Bagikan pendapat tentang laporan ini</p>
+                            </div>
+
+                            <form action="{{ route('review.store') }}" method="POST" class="space-y-4">
+                                @csrf
+                                
+                                {{-- Hidden fields --}}
+                                <input type="hidden" name="reviewable_id" value="{{ $report->id }}">
+                                <input type="hidden" name="reviewable_type" value="{{ get_class($report) }}">
+                                
+                                {{-- Name field --}}
+                                <div>
+                                    <label for="review_name" class="block text-sm font-medium text-gray-700 mb-1">Nama (Opsional)</label>
+                                    <input type="text" name="name" id="review_name" class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200 text-sm py-2" placeholder="Masukkan nama Anda">
+                                    @error('name') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
+                                </div>
+                                
+                                {{-- Email field --}}
+                                <div>
+                                    <label for="review_email" class="block text-sm font-medium text-gray-700 mb-1">Email (Opsional)</label>
+                                    <input type="email" name="email" id="review_email" class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200 text-sm py-2" placeholder="email@contoh.com">
+                                    @error('email') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
+                                </div>
+                                
+                                {{-- Content field --}}
+                                <div>
+                                    <label for="review_content" class="block text-sm font-medium text-gray-700 mb-1">Ulasan <span class="text-red-500">*</span></label>
+                                    <textarea name="content" id="review_content" required rows="4" class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200 text-sm py-2" placeholder="Berikan ulasan Anda mengenai laporan ini..."></textarea>
+                                    @error('content') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
+                                </div>
+                                
+                                {{-- Submit button --}}
+                                <button type="submit" class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-semibold text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors">
+                                    Kirim Ulasan
+                                </button>
+                            </form>
+                        </div>
+                    @else
+                        {{-- Card: Ulasan Dinonaktifkan --}}
+                        <div class="bg-white p-6 rounded-xl shadow-lg border border-green-100">
+                            <div class="text-center mb-6">
+                                <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 text-gray-400 mb-3">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-900">Ulasan Publik</h3>
+                                <p class="text-gray-500">Ulasan dinonaktifkan untuk dokumen ini.</p>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
 

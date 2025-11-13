@@ -38,14 +38,15 @@ class SocController extends Controller
         $selectedYear = $request->query('year');
 
         if ($selectedYear) {
-            $report = $availableReports->where('tahun', $selectedYear)->first();
+            $report = $city->socReports()
+                ->with(['reviews' => fn($query) => $query->latest()])
+                ->where('tahun', $selectedYear)
+                ->firstOrFail();
         } else {
-            $report = $availableReports->first();
-        }
-
-        // Jika tidak ada laporan sama sekali untuk kota ini
-        if (!$report) {
-            return redirect()->route('soc.index')->with('error', 'Belum ada laporan untuk kota ini.');
+            $report = $city->socReports()
+                ->with(['reviews' => fn($query) => $query->latest()])
+                ->orderBy('tahun', 'desc')
+                ->firstOrFail();
         }
 
         return view('soc.show', compact('city', 'availableReports', 'report'));
