@@ -40,7 +40,7 @@ class="bg-gray-50 py-24 sm:py-32 min-h-screen">
         </div>
 
         {{-- LAYOUT UTAMA --}}
-        <div class="lg:grid lg:grid-cols-3 lg:gap-10">
+        <div class="lg:grid lg:grid-cols-3 lg:gap-10 lg:items-start">
 
             {{-- KOLOM KIRI: Preview File & Deskripsi --}}
             <div class="lg:col-span-2 space-y-6">
@@ -133,7 +133,7 @@ class="bg-gray-50 py-24 sm:py-32 min-h-screen">
             <div class="lg:col-span-1 mt-8 lg:mt-0" x-data="{ tab: 'unduh' }">
                 
                 {{-- Navigasi Tab --}}
-                <div class="flex space-x-1 rounded-lg bg-gray-200 p-1 mb-4">
+                <div class="flex space-x-1 rounded-lg bg-gray-200 p-1 mb-4 sticky top-24">
                     <button @click="tab = 'unduh'" 
                             :class="tab === 'unduh' ? 'bg-white shadow text-gray-900' : 'text-gray-600 hover:bg-gray-100'"
                             class="flex-1 px-3 py-2 text-sm font-medium rounded-md transition-colors">
@@ -203,7 +203,7 @@ class="bg-gray-50 py-24 sm:py-32 min-h-screen">
                             </div>
 
                             {{-- Daftar Ulasan --}}
-                            <div class="space-y-4">
+                            <div class="space-y-4 max-h-96 overflow-y-auto">
                                 @forelse($plan->reviews as $review)
                                     <div class="border-b py-4 last:border-b-0">
                                         <div class="flex justify-between items-start mb-2">
