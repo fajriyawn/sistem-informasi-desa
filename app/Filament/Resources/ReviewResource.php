@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use App\Models\SocReport;
 use App\Models\IcmPlan;
+use App\Models\City;
 
 class ReviewResource extends Resource
 {
@@ -92,11 +93,54 @@ class ReviewResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('reviewable_type')
+                    ->label('Tipe Dokumen')
+                    ->options([
+                        'App\\Models\\SocReport' => 'Laporan SOC',
+                        'App\\Models\\IcmPlan' => 'Rencana ICM',
+                    ]),
+                
+                Tables\Filters\SelectFilter::make('city')
+                    ->label('Daerah')
+                    ->options(City::pluck('name', 'id')->toArray())
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query->when(
+                            $data['value'],
+                            fn (Builder $query, $value): Builder => $query->whereHasMorph(
+                                'reviewable',
+                                [SocReport::class, IcmPlan::class],
+                                fn (Builder $query) => $query->where('city_id', $value)
+                            )
+                        );
+                    }),
+                
+                Tables\Filters\Filter::make('tahun')
+                    ->label('Tahun')
+                    ->form([
+                        Forms\Components\TextInput::make('tahun')
+                            ->label('Tahun')
+                            ->placeholder('Contoh: 2024'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query->when(
+                            $data['tahun'],
+                            fn (Builder $query, $value): Builder => $query->whereHasMorph(
+                                'reviewable',
+                                [SocReport::class, IcmPlan::class],
+                                fn (Builder $query) => $query->where('tahun', $value)
+                            )
+                        );
+                    }),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ])
+                ->icon('heroicon-m-ellipsis-vertical'),
+            ])
+            ->headerActions([
+                // Disable create action - no header actions
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -117,10 +161,13 @@ class ReviewResource extends Resource
     {
         return [
             'index' => Pages\ListReviews::route('/'),
-            'create' => Pages\CreateReview::route('/create'),
             'view' => Pages\ViewReview::route('/{record}'),
-            'edit' => Pages\EditReview::route('/{record}/edit'),
         ];
+    }
+
+    public static function canCreate(): bool
+    {
+        return false;
     }
 
     public static function getEloquentQuery(): Builder
