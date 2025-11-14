@@ -11,7 +11,17 @@ class IcmPlan extends Model {
         'ss_pembangunan', // Tambahkan
         'ss_matriks_icm', // Tambahkan
         'file_laporan', // Ganti nama dari file_path
-        'original_filename'
+        'original_filename',
+        'reviews_enabled',
+        'description'
+    ];
+
+    protected $casts = [
+        'reviews_enabled' => 'boolean',
+    ];
+
+    protected $attributes = [
+        'reviews_enabled' => true,
     ];
 
     public function city() {
@@ -21,5 +31,10 @@ class IcmPlan extends Model {
     public function downloadLogs()
     {
         return $this->morphMany(DownloadLog::class, 'downloadable');
+    }
+
+    public function reviews()
+    {
+        return $this->morphMany(Review::class, 'reviewable')->where('is_published', true)->orderBy('created_at', 'desc');
     }
 }
